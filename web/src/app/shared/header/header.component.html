@@ -1,35 +1,46 @@
-<div class="container">
-  <!-- <div class="hero is-info">
-    <div class="hero-head"> -->
-      <header class="nav">
-        <div class="container">
-          <div class="nav-left">
-            <a class="nav-item">
-                    feeed
-                  </a>
-          </div>
-          <span class="nav-toggle">
-                    <span></span>
-          <span></span>
-          <span></span>
-          </span>
-          <div class="nav-right nav-menu">
-            <a *ngIf="authService.isAuthenticated()" class="nav-item">
-                    Profile&nbsp;
-                    <img src="{{profile?.picture}}" class="avatar" alt="avatar" height="32" width="32">
-                  </a>
-            <a *ngIf="authService.isAuthenticated()" class="nav-item is-active">
-                        <a (click)="authService.logout()">Log Out</a>
-            </a>
-            <a *ngIf="!authService.isAuthenticated()" class="nav-item">
-                          <a (click)="authService.login()">Log In</a>
-            </a>
 
-          </div>
-
-
+    <nav class="navbar is-transparent is-light">
+      <div class="container">
+        
+        <div class="navbar-brand">
+          <a class="nav-item">feeed</a>
+    
+          <button class="button navbar-burger" (click)="toggleMenu()" [class.is-active]="menuOpen">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
-      </header>
-    <!-- </div>
-  </div> -->
-</div>
+    
+        <div class="navbar-menu" [class.is-active]="menuOpen">
+          <div class="navbar-start">
+              <a class="navbar-item">Home</a>
+              <a class="navbar-item">Help</a>
+          </div>
+    
+          <div class="navbar-end">
+            <a *ngIf="authService.isAuthenticated()" class="navbar-item">
+              Profile&nbsp;
+    
+              <img
+                *ngIf="profile"
+                src="{{profile?.picture}}"
+                class="avatar"
+                alt="avatar"
+                height="32"
+                width="32"
+              >
+            </a>
+    
+            <a *ngIf="authService.isAuthenticated()" class="navbar-item">
+              <a (click)="authService.logout()">Log Out</a>
+            </a>
+    
+            <a *ngIf="!authService.isAuthenticated()" class="navbar-item">
+              <a (click)="authService.login()">Log In</a>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+    </nav>

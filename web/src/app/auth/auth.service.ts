@@ -6,6 +6,10 @@ import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
+  accessToken: string;
+  idToken: string;
+  expiresAt: string;
+
   userProfile: any;
   auth0 = new auth0.WebAuth({
     clientID: '3ijxjdDtBhjNOgRix3NE8PDiwA4swxLN',
@@ -38,13 +42,17 @@ export class AuthService {
   private setSession(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+
+
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+
   }
 
   public logout(): void {
     // Remove tokens and expiry time from localStorage
+
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
@@ -58,20 +66,30 @@ export class AuthService {
     // access token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+
   }
 
-  public getProfile(cb): void {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      throw new Error('Access token must exist to fetch profile');
-    }
+  public getProfile(): any {
 
-    const self = this;
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) {
-        self.userProfile = profile;
+    return new Promise((resolve, reject) => {
+
+      const accessToken = localStorage.getItem('access_token');
+      if (!accessToken) {
+        // throw new Error('Access token must exist to fetch profile');
+        // return cb('No access token', null);
+        reject('No access token');
       }
-      cb(err, profile);
+      
+      const self = this;
+      this.auth0.client.userInfo(accessToken, (err, profile) => {
+        if (profile) {
+          self.userProfile = profile;
+          resolve(profile);
+        } else {
+          reject('No profile');
+        }
+        // cb(err, profile);
+      });
     });
   }
 

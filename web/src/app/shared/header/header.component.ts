@@ -8,21 +8,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   profile: any;
+  menuOpen: boolean;
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService) { 
+    this.menuOpen = false;
 
-  ngOnInit() {
+    this.authService = authService;
+
     if (this.authService.userProfile) {
       this.profile = this.authService.userProfile;
     } else {
-      this.authService.getProfile((err, profile) => {
-        this.profile = profile;
-      });
+      this.authService.getProfile()
+        .then((profile) => {
+          this.profile = profile;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.profile = null;
+        });
     }
+  }
+
+  ngOnInit() {
+
   }
 
   loginButtonClicked(): void {
     this.authService.login();
+  }
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+    console.log(this.menuOpen);
   }
 
 }
