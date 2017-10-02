@@ -1,96 +1,108 @@
-import { Router } from '@angular/router';
-import {
-  Injectable
-} from '@angular/core';
-import * as auth0 from 'auth0-js';
+import { HttpClient } from '@angular/common/http';
+import { User, IUser } from './user.model';
+import { UsersService } from './../users/users.service';
+
+import {Router} from '@angular/router';
+import {Injectable} from '@angular/core';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Rx';
+// import 'rxjs/add/operator/take';
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/'
+import * as firebase from 'firebase/app';
+
 
 @Injectable()
 export class AuthService {
-  accessToken: string;
-  idToken: string;
-  expiresAt: string;
 
-  userProfile: any;
-  auth0 = new auth0.WebAuth({
-    clientID: '3ijxjdDtBhjNOgRix3NE8PDiwA4swxLN',
-    domain: 'apedley.auth0.com',
-    responseType: 'token id_token',
-    audience: 'https://apedley.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/authenticated',
-    scope: 'openid profile'
-  });
+  public user: firebase.User;
+  public dbUser: User;
+  public authState$: Observable<firebase.User>;
 
-  constructor(public router: Router) {}
+  constructor(
+    public router: Router,
+    private afAuth: AngularFireAuth,
+    private afDb: AngularFireDatabase,
+    private http: HttpClient
+  ) {
+    this.user = null;
+    this.authState$ = afAuth.authState;
+    this.afAuth.authState.subscribe((res) => {
+      console.log('newsub', res);
+    })
+    this.authState$.subscribe((user: firebase.User) => {
+        this.user = user;
+        
+        console.log('authState$ changed', this.user);
+        debugger;
+        const url = 'http://localhost:8080/users/' + encodeURIComponent(user.email);
 
-  public login(): void {
-    this.auth0.authorize();
-  }
-
-  public handleAuthentication(): void {
-    
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = '';
-        this.setSession(authResult);
-        this.router.navigate(['/']);
-      } else if (err) {
-        this.router.navigate(['/']);
-        console.log(err);
-      }
+        this.http.get<IUser>(url).subscribe(
+        results => {
+          this.dbUser = results
+        }, error => {
+          this.dbUser = null;
+          console.error('error at getting user from db when already logged in', error);
+        })
     });
   }
-  private setSession(authResult): void {
-    // Set the time that the access token will expire at
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
 
+  logInEmail(email: string, password: string) {
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        const authId = result.uid;
+        console.log(result);
+        // this.user = result.user;
+        // debugger;
+        // firebase.auth().currentUser.getToken()
+        // .then(token => {
+          
+        //   debugger;
+        //   // const url = 'http://localhost:8080/users/' + encodeURIComponent(email);
+        //   const url = 'http://localhost:8080/users/login';
+        //   this.http.post<IUser>(url, {email, token}).subscribe(results => {
+        //     this.dbUser = results
+        //     this.router.navigate(['/']);
+        //   })
+        // })
 
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+        // .catch(err => {
+        //   console.error('error getting token');
+        // });
+        
+        
 
-  }
+      }).catch((error: firebase.FirebaseError) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
 
-  public logout(): void {
-    // Remove tokens and expiry time from localStorage
-
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-    // Go back to the home route
-    this.router.navigate(['/']);
-  }
-
-
-  public isAuthenticated(): boolean {
-    // Check whether the current time is past the
-    // access token's expiry time
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
-
-  }
-
-  public getProfile(): any {
-
-    return new Promise((resolve, reject) => {
-
-      const accessToken = localStorage.getItem('access_token');
-      if (!accessToken) {
-        // throw new Error('Access token must exist to fetch profile');
-        // return cb('No access token', null);
-        reject('No access token');
-      }
-      
-      const self = this;
-      this.auth0.client.userInfo(accessToken, (err, profile) => {
-        if (profile) {
-          self.userProfile = profile;
-          resolve(profile);
-        } else {
-          reject('No profile');
-        }
-        // cb(err, profile);
+        console.error('ERROR @ AuthService#signIn() :', error);
       });
-    });
+
+  }
+
+
+  signUpEmail(email: string, password: string) {
+    return firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(authResults => {
+        const authId = authResults.uid;
+        debugger;
+        this.http.post('http://localhost:8080/users', {email, authId}).subscribe(results => {
+          this.dbUser = results['user'];
+
+          this.router.navigate(['/']);
+        });
+      })
+      .catch(err => {
+        console.error('Error: ', err);
+      });
+  }
+
+  logout(): void {
+    this.dbUser = null;
+    this.afAuth.auth.signOut();
+    this.router.navigate(['/login']);
   }
 
 }

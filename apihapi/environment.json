@@ -1,0 +1,30 @@
+{
+  "development": {
+    "port": 8080,
+    "host": "localhost",
+    "logLevel": "DEBUG",
+    "bodyLimit": "100kb",
+    "apiKey": "e0e264fa027f43c5adc5e16a40a85cf1",
+    "baseUrl": "http://beta.newsapi.org/v2/",
+    "auth": {
+      "jwksUri": "https://apedley.auth0.com/.well-known/jwks.json",
+      "audience": "https://apedley.auth0.com/api/v2/",
+      "issuer": "https://apedley.auth0.com/",
+      "algorithms": ["RS256"]
+    },
+    "mongoConnectionString": "mongodb://localhost/feeed-dev",
+    "firebaseDb": "https://feeed-dev.firebaseio.com/",
+    "firebase": {
+      "type": "service_account",
+      "project_id": "feeed-dev",
+      "private_key_id": "d9e28b4a61a5a8449c3d443855a1f7da171ef7ca",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCPnmvO6J2yf5Wm\nhuz61ahPUVC7PPwSaZT5Ghtb6UYCvIe7V3iU1Gw4LQ+HTnXgQJ18ENnX51NSFCwj\nECKK1iS65AdCK9NJuxwwIU3e2vO0chVfGlYdpjsDAet4Fw88NNq28WnaPS+ThP6s\nkfgD44n/p8o5WEauzK+pJj9lYc7713P4yHBY/4wxv18DeFBOHsu63Yb6Zx6i6yqW\nyI6jEDFtZLeuULlbsj0uVX0vgsIf3TvMjFpR3ESkmawPeIljHn9+V4jFSSpkmTub\ndJz9LUIj0FS90aOGwhNjiVla5Hg3GoW+L+M6jcaFACFSrtXHnxCHF0gM6efo+M8N\nNCoIDFCNAgMBAAECggEAE4bQFKE287J6F9qndNFA4YvmRJbdlOlLCnVcu+njDXMx\npyyU5fNdxWOHBXgK+dL/NoOaAsteXj4E5D2I3MSR2OExBXOs9gzdH8QfcMnnMaUD\nN9t+UuirhFSp/blw5lgvVolLQZNpGQ8Pi0oLZQf2Vs6q5ZIVhiWpSn+7Rd7/A+mK\nl9+KqpHPbi69Yx0+KT+3VJkY+vpm5w6ZY0Ktp+UlCTUW1fKeqQfrSXWRuBySXSjt\nhIsJxCSAdTu4CMKcH6oZSB+kguY1ZaCQgQd5Om30KyJSrkaxn9hnx7T2xZpo8D3H\nOZO8DPfn8i+Z6MJ4cAsMN/onwtNlmwcVG3Rrxe8E8QKBgQDIRNnN7b4yW9jQFFKm\n8nqa8tRNS2SeU6NNw89miHtUV/emeo+kDLKWln1UGBqGmc1AVt3BNPPjpqLtxSj1\nfihSjdh+8YX8s2xWciMA2A8K+5l7xJFCaeBiUSlDECtP2DSFBYFVMitZfd3eylLK\nJWAXUAH8zEtj7BZwqnDz0qmGdQKBgQC3ldGwDFiM7qzsdHrhsrJ+8nVKodrQXg/0\njysQNm0/KIcq1BHa3fx+5D3yQTctLkE0zlAcMGS4Vt081TPe7f2pSp/5P6qiab0s\nmKJn9Z8yV56GjvBtG0WY4LVQ0DLFbx/wKaK23eh/YkAJNKSyxWIlYxZHPr9IxvPN\n1DeToPjOuQKBgQCUavojdDLFbW4D31vVn9QfKyENW3dpIsDeq+Pzr+f+fObq+N+l\nC0f68/JTtT1LTYZgTUAwpIauytrqbXhKX0GQ1NCCW4oZ2frLIfEw+e5EDGwV3nps\nhrylAFMdAUmn9aoOfyL3OaQIwZABQV4Ts5lADao7aEfi+J80xgvJlvDN1QKBgQCc\nbKJzT8Gvq7pZ61G8t4dRlYONKOYJvuv3ZHm74bQqKX0qZ/IivBzlfdKudRTvgUb8\nGIK30iAv1YvCxqLg44XMVpKCTNY2dsRCmHdg/y87NN8VJfwD60Xc4jJ7/joUcgAT\noVZMXD47M9r+PQXMcVSUKJ6V7AgOmb6o9Za5SmJVuQKBgBZZAuzOEnBqW/w0KQGV\n4PejWOzF4/g3pDcOWzHVFaE209KFE5TxPiHneGRrq6qCdNyNOxFHoaXx7PBJNmaq\naa7NmFng30s8Y7bw5q7AW3VvcB7mD1EqUuV3Q0FhoisGJqfFebS4RPMWXY0kI/vZ\nqDyUs7VXKQdmTgqmFVBW6Ook\n-----END PRIVATE KEY-----\n",
+      "client_email": "firebase-adminsdk-xho6j@feeed-dev.iam.gserviceaccount.com",
+      "client_id": "103141677885320436807",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://accounts.google.com/o/oauth2/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xho6j%40feeed-dev.iam.gserviceaccount.com"
+    }    
+  }
+}
