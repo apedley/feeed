@@ -1,5 +1,10 @@
+<div class="content has-text-centered loading" *ngIf="sources.length == 0">
+  <img src="/assets/loading.gif"  >
+</div>
+<div *ngIf="sources.length">
 <input (keyup)="searchEntered()">
-<table class="table" *ngIf="sources.length">
+<table class="table">
+    
   <thead>
     <tr>
       <th *ngFor="let column of columns" (click)="sortColumn(column)">
@@ -22,3 +27,4 @@
     </tr>
   </tbody>
 </table>
+</div>

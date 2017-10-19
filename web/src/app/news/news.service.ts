@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Source, ISource, ISourcesResponse } from './source.model';
 
 import { Article, IArticleResponse } from './article.model';
@@ -33,11 +34,11 @@ export class NewsService {
       this.articles = [];
       return;
     }
-
     const body = {
+      
       url: `http://beta.newsapi.org/v2/top-headlines?sources=${this.selectedSubscription.sourceId}&`
     }
-    const url = 'http://localhost:8080/news/request';
+    const url = `${environment.apiBaseUrl}/news/request`;
 
     
 
@@ -54,8 +55,7 @@ export class NewsService {
     const body = {
       url: `http://beta.newsapi.org/v2/sources?language=en&`
     }
-    const url = 'http://localhost:8080/news/request';
-
+    const url = `${environment.apiBaseUrl}/news/request`;
     
     this.http.post<ISourcesResponse>(url, body, {
       headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
@@ -82,7 +82,7 @@ export class NewsService {
   }
 
   addSubscription(source: ISource) {
-    const url = 'http://localhost:8080/users/subscribe';
+    const url = `${environment.apiBaseUrl}/users/subscribe`;
 
     
     const data = {

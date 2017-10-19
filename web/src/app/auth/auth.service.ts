@@ -44,7 +44,7 @@ export class AuthService {
         firebase.auth().currentUser.getIdToken()
           .then(apiToken => {
             this.token = apiToken;
-            this.user$ = this.http.get('http://localhost:8080/users/current', {
+            this.user$ = this.http.get(`${environment.apiBaseUrl}/users/current`, {
               headers: new HttpHeaders().set('Authorization', `bearer ${apiToken}`)  
             }).share();
             this.user$.subscribe(user => {
@@ -66,7 +66,7 @@ export class AuthService {
         
         firebase.auth().currentUser.getIdToken()
           .then(apiToken => {
-            return this.http.get<IUser>('http://localhost:8080/users/current', {
+            return this.http.get<IUser>(`${environment.apiBaseUrl}/users/current`, {
               headers: new HttpHeaders().set('Authorization', `bearer ${apiToken}`)  
             }).do(user => {
               debugger;
@@ -100,7 +100,7 @@ export class AuthService {
               firebaseToken: token
             }
 
-            this.http.post('http://localhost:8080/users', userData).subscribe(results => {
+            this.http.post(`${environment.apiBaseUrl}/users`, userData).subscribe(results => {
               
               this.user = results['user'];
 
