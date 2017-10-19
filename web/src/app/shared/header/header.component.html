@@ -14,8 +14,8 @@
     
         <div class="navbar-menu" [class.is-active]="menuOpen">
           <div class="navbar-start">
-              <a class="navbar-item">Home</a>
-              <a class="navbar-item">Help</a>
+              <a class="navbar-item" routerLink="/">Home</a>
+              <a class="navbar-item" routerLink="/sources">Sources</a>
           </div>
     
           <div class="navbar-end">
@@ -33,7 +33,7 @@
             </a>
           -->
             <a class="navbar-item" *ngIf="(authService.authState$ | async)">
-              User: {{ (authService.authState$ | async)?.email }}
+              User: {{ (authService.user$ | async)?.email }}
             </a>
             
             <a *ngIf="authService.authState$ | async" class="navbar-item">

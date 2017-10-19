@@ -4,3 +4,23 @@
 @media only screen and (max-width: 790px) {
   .mobile-hide{ display: none !important; }
 }
+
+.sidebar {
+  margin-top: 2em;
+}
+
+.home-view {
+  margin-right: 20px;
+}
+
+.clickable-article {
+  cursor: pointer
+}
+/* 
+.author {
+
+} */
+
+.date {
+  color: #888;
+}

@@ -1,0 +1,36 @@
+
+    <div class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title" *ngIf="selectedSubscription">
+            <a [attr.href]="selectedSubscription.url" target="_blank">
+            {{ selectedSubscription.name }}
+            </a>
+          </h1>
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="articles.length">
+      <article class="media clickable-article" *ngFor="let article of articles" (click)="articleClicked(article)">
+        <figure class="media-left">
+          <p class="image is-128x128">
+            <img [src]="article.urlToImage">
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="content">
+            <h4 class="title">
+              {{ article.title }}
+            </h4>
+            <h6 class="subtitle">
+              <span class="author" *ngIf="article.author">By {{ article.author }}</span>
+              <span class="date" *ngIf="article.publishedAt">{{ article.publishedAt | date:'medium' }}</span>
+            </h6>
+            <p>
+              {{ article.description }}
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>

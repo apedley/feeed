@@ -6,5 +6,6 @@ import { secret } from './secret';
 
 export const environment = {
   production: false,
-  secret: secret.dev
+  secret: secret.dev,
+  apiBaseUrl: 'http://localhost:8080'
 };

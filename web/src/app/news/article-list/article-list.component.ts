@@ -1,18 +1,15 @@
-import { Article } from './../news/article.model';
+import { NewsService } from './../news.service';
+import { Article } from './../article.model';
+import { Subscription as AppSubscription } from '../subscription.model';
 import { Subscription } from 'rxjs/Rx';
-import { NewsService } from './../news/news.service';
-import { Subscription as AppSubscription } from '../news/subscription.model';
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: [
-    './home.component.css'
-  ]
+  selector: 'app-article-list',
+  templateUrl: './article-list.component.html',
+  styleUrls: ['./article-list.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class ArticleListComponent implements OnInit, OnDestroy {
   private selectedSubscriptionSubscription: Subscription;
   public selectedSubscription: AppSubscription;
 
@@ -22,7 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private newsService: NewsService) { }
 
   ngOnInit() {
-
+    
     this.selectedSubscriptionSubscription = this.newsService.selectedSubscriptionChanged.subscribe(sub => {
       this.selectedSubscription = sub;
     });
@@ -40,4 +37,5 @@ export class HomeComponent implements OnInit, OnDestroy {
     window.open(article.url, '_blank');
     
   }
+
 }

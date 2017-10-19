@@ -1,3 +1,22 @@
-<div>
-    sidebar
-</div>
+<nav class="panel">
+  <p class="panel-heading">
+    New Subscription
+  </p>
+  <div class="panel-block">
+    <p class="control has-icons-left">
+      <input type="text" class="input" (keyup)="searchSources($event.target.value)" placeholder="Search">
+      <span class="icon is-small is-left">
+        <i class="fa fa-search"></i>
+      </span>
+    </p>
+  </div>
+  <a class="panel-block" *ngFor="let result of searchResults" (click)="searchResultClicked(result)">
+      {{ result.name }}
+  </a>
+  <p class="panel-heading">
+    Subscriptions
+  </p>
+  <a class="panel-block" *ngFor="let sub of subscriptions" (click)="subscriptionClicked(sub)">
+    {{ sub.name }}
+  </a>
+</nav>

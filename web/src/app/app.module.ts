@@ -1,5 +1,6 @@
+
+import { NewsService } from './news/news.service';
 import { HttpClientModule } from '@angular/common/http';
-import { UsersService } from './users/users.service';
 
 import { UnauthGuard } from './auth/unauth-guard.service';
 import { AuthGuard } from './auth/auth-guard.service';
@@ -9,9 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { AppMaterialModule } from './shared/app-material.module';
 import { AngularFireModule } from 'angularfire2';
-
 // New imports to update based on AngularFire2 version 4
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -26,6 +26,8 @@ import { FooterComponent } from './shared/footer/footer.component';
 
 import { environment } from '../environments/environment';
 import { NewsComponent } from './news/news.component';
+import { SourceListComponent } from './news/source-list/source-list.component';
+import { ArticleListComponent } from './news/article-list/article-list.component';
 
 // const firebaseConfig = ;
 
@@ -38,7 +40,9 @@ import { NewsComponent } from './news/news.component';
     SidebarComponent,
     HeaderComponent,
     FooterComponent,
-    NewsComponent
+    NewsComponent,
+    SourceListComponent,
+    ArticleListComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,8 @@ import { NewsComponent } from './news/news.component';
     AuthService,
     AuthGuard,
     UnauthGuard,
-    UsersService
+    NewsService
+    
   ],
   bootstrap: [AppComponent]
 })

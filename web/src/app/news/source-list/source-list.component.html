@@ -1,0 +1,24 @@
+<input (keyup)="searchEntered()">
+<table class="table" *ngIf="sources.length">
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns" (click)="sortColumn(column)">
+        {{ column }}
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="card" *ngFor="let source of sources">
+      <td> {{ source.name }} </td>
+      <td> {{ source.description }} </td>
+      <td> {{ source.category | titlecase }} </td>
+      <td> {{ source.country | uppercase }} </td>
+      <td> 
+        <a class="button">
+          <div class="icon"><i class="fa fa-plus"></i></div>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
