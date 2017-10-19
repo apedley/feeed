@@ -6,7 +6,6 @@ import firebaseAdmin from 'firebase-admin';
 
 import mongoose from 'mongoose';
 
-import { sendError } from './utils';
 
 import newsRoutes from './routes/news';
 import usersRoutes from './routes/users';
@@ -23,9 +22,6 @@ if (env !== 'test') {
   app.use(morgan('dev'));
 }
 
-// app.use(cors({
-//   exposedHeaders: config.corsHeaders
-// }));
 app.use(cors());
 
 app.use(bodyParser.json({

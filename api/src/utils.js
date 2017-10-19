@@ -19,11 +19,7 @@ export function firebaseAuthTokenMiddleware(req, res, next) {
   let token = authHeader.split(' ');
   FirebaseAdmin.auth().verifyIdToken(token[1])
   .then(decodedToken => {
-    console.dir(decodedToken);
-    res.locals.token = {
-      decoded: decodedToken,
-      encoded: token
-    }
+    res.locals.token = decodedToken;
     next();
   })
   .catch(err => {

@@ -16,9 +16,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: 'en'
   },
-  clientToken: {
-    type: String
-  }
+  subscriptions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'subscription'
+  }]
 } , {
   toObject: {
     transform: (doc, ret, game) => {

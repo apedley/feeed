@@ -1,8 +1,6 @@
 import {
   Router
 } from "express";
-import Request from "request";
-import uuidv4 from 'uuid';
 import * as FirebaseAdmin from "firebase-admin";
 
 import {
@@ -10,37 +8,73 @@ import {
   firebaseAuthTokenMiddleware
 } from '../utils';
 import User from '../models/user';
+import Subscription from '../models/subscription';
 
-export default ({
-  config
-}) => {
+export default ({ config }) => {
   let api = Router();
 
-  api.get('/test', firebaseAuthTokenMiddleware, (req, res) => {
-    res.send('test');
-  })
+  // get info
+  api.get('/current', firebaseAuthTokenMiddleware, (req, res) => {
 
-  api.post('/login', (req, res, next) => {
+    let authId = res.locals.token.uid;
+
+    if (!authId) {
+      return sendError(res, 'authId required');
+    }
+
+    // User.findOne(
+    //   { authId },
+    //   (err, user) => {
+    //     if (err) {
+    //       return sendError(res, err);
+    //     }
+
+    //     if (!user) {
+    //       return sendError(res, 'Did not get a response');
+    //     }
+
+    //     res.status(200).json(user.toObject());
+    //   })
+
+    User.findOne({ authId })
+      .populate('subscriptions')
+      .exec((err, user) => {
+        debugger;
+        if (err) {
+          return sendError(res, err);
+        }
+
+        if (!user) {
+          return sendError(res, 'Did not get a response');
+        }
+
+        res.status(200).json(user.toObject());
+      })
+  } );
+  
+
+  // Log in
+  api.post('/login', (req, res) => {
     const email = req.body.email;
-    const clientToken = req.body.token || '';
+    const firebaseToken = req.body.token || '';
 
-    console.info('token' + clientToken);
+    console.info('token' + firebaseToken);
 
 
     if (!email) {
       return sendError(res, 'Email required');
     }
 
-    FirebaseAdmin.auth().verifyIdToken(clientToken)
+    FirebaseAdmin.auth().verifyIdToken(firebaseToken)
       .then(decodedToken => {
-        debugger;
+        console.log('decoded', decodedToken);
       }).catch(err => {
         console.log(err) 
       })
 
     User.findOneAndUpdate(
       { email }, 
-      { clientToken },
+      { firebaseToken },
       { new: true },
       (err, user) => {
         if (err) {
@@ -55,51 +89,26 @@ export default ({
       })
   })
 
-  api.get('/:email', (req, res, next) => {
-    const email = req.params.email;
 
-    if (!email) {
-      return sendError(res, 'Email required');
-    }
-    User.findOne({
-      email
-    }, (err, user) => {
-      if (err) {
-        return sendError(res, err);
-      }
-
-      if (!user) {
-        return sendError(res, 'Did not get a response');
-      }
-
-      res.status(200).json(user.toObject());
-    })
-  });
-
-  api.post('/', (req, res, next) => {
-
-    const email = req.body.email;
-    const authId = req.body.authId;
-    const language = req.body.language || 'en';
-    if (!email || !authId) {
+  // Sign up
+  api.post('/', (req, res) => {
+    const userData = req.body;
+    if (!userData.email || !userData.authId ) {
       return sendError(res, 'Email and authid required');
     }
 
     User.findOne({
-      email
+      email: userData.email
     }, (err, existingUser) => {
       if (err) {
         return sendError(res, err);
       }
+
       if (existingUser) {
         return sendError(res, 'Email associated with another account');
       }
 
-      const user = new User({
-        email,
-        authId,
-        language
-      });
+      const user = new User(userData);
 
       user.save(err => {
         if (err) {
@@ -111,6 +120,53 @@ export default ({
         });
       })
     })
+  });
+
+  api.post('/subscribe', firebaseAuthTokenMiddleware, (req, res) => {
+    let authId = res.locals.token.uid;
+
+    if (!authId) {
+      return sendError(res, 'authId required');
+    }
+
+    const subscriptionData = req.body;
+
+    User.findOne({ authId }, (err, user) => {
+      if (err) {
+        return sendError(res, err);
+      }
+
+      if (!user) {
+        return sendError(res, 'Did not get a response');
+      }
+
+      const data = {
+        ...subscriptionData,
+        user: user._id
+      }
+      debugger;
+
+      const subscription = new Subscription(data);
+
+      subscription.save(err => {
+        if (err) {
+          return sendError(res, err);
+        }
+
+        user.subscriptions.push(subscription);
+        user.save(err => {
+          if (err) {
+            return sendError(res, err);
+          }
+
+          res.status(200).json({
+            subscription: subscription.toObject()
+          });
+        })
+                
+      })
+    })
+
   })
   return api;
 }
