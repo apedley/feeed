@@ -24,3 +24,21 @@
 .date {
   color: #888;
 }
+
+.sideNavBar {
+  width: 300px;
+}
+
+.mat-drawer-container {
+  background: white;
+}
+
+mat-sidenav-container {
+  height: 100%
+}
+
+html, body, material-app, mat-sidenav-container, .my-content {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}

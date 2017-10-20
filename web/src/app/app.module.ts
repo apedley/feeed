@@ -1,3 +1,5 @@
+import { SidebarService } from './shared/sidebar/sidebar.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NewsService } from './news/news.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppMaterialModule } from './shared/app-material.module';
 import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
@@ -52,13 +55,17 @@ import { ArticleListComponent } from './news/article-list/article-list.component
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    FlexLayoutModule,
+    BrowserAnimationsModule,
+    AppMaterialModule
   ],
   providers: [
     AuthService,
     AuthGuard,
     UnauthGuard,
-    NewsService
+    NewsService,
+    SidebarService
     
   ],
   bootstrap: [AppComponent]

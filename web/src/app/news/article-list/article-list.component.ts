@@ -1,5 +1,5 @@
 import { NewsService } from './../news.service';
-import { Article } from './../article.model';
+import { IArticle } from './../article.model';
 import { Subscription as AppSubscription } from '../subscription.model';
 import { Subscription } from 'rxjs/Rx';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -14,9 +14,10 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   public selectedSubscription: AppSubscription;
 
   private articlesSubscription: Subscription;
-  public articles: Article[] = [];
-
+  public articles: IArticle[] = [];
+  
   constructor(private newsService: NewsService) { }
+  public imgs = [];
 
   ngOnInit() {
     
@@ -25,7 +26,19 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     });
 
     this.articlesSubscription = this.newsService.articlesChanged.subscribe(articles => {
+      articles.forEach(article => {
+        const sizes = [ .70, .85, .95, 1 ];
+        const idx = Math.floor(Math.random() * 4);
+
+        article.scale = sizes[idx] * 30 + '';
+        if (article.description && article.description.length > 70) {
+          article.description = article.description.substr(0, 67).trim() + '...'
+        }
+      })
       this.articles = articles;
+      this.imgs = articles.map(art => { 
+        return art.urlToImage; 
+      });
     });
   }
 
@@ -33,7 +46,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     this.selectedSubscriptionSubscription.unsubscribe();
   }
 
-  articleClicked(article: Article) {
+  articleClicked(article: IArticle) {
     window.open(article.url, '_blank');
     
   }

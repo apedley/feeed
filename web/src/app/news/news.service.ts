@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { Source, ISource, ISourcesResponse } from './source.model';
 
-import { Article, IArticleResponse } from './article.model';
+import { IArticle, IArticleResponse } from './article.model';
 import { Subject } from 'rxjs/Rx';
 import { Subscription } from './subscription.model';
 import { AuthService } from './../auth/auth.service';
@@ -15,8 +15,8 @@ export class NewsService {
   selectedSubscriptionChanged = new Subject<Subscription>();
   private sources: Source[] = [];
   sourcesChanged = new Subject<Source[]>();
-  private articles: Article[] = [];
-  articlesChanged = new Subject<Article[]>();
+  private articles: IArticle[] = [];
+  articlesChanged = new Subject<IArticle[]>();
 
   constructor(
     public authService: AuthService,

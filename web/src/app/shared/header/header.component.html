@@ -1,9 +1,36 @@
+<mat-toolbar color="primary" class="mat-elevation-z10">
+    <button mat-icon-button class="toolbar-text" (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span routerLink="/" class="toolbar-text">feeed</span>
+    <span routerLink="/sources" class="toolbar-text">Sources</span>
+  
+    <!-- This fills the remaining space of the current row -->
+    <span class="toolbar-spacer"></span>
+    <mat-icon class="toolbar-icon">settings</mat-icon>
+    <button mat-icon-button [matMenuTriggerFor]="account">
 
-    <nav class="navbar is-transparent is-light">
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #account="matMenu" yPosition="below">
+      <button mat-menu-item *ngIf="!(authService.authState$ | async)" routerLink="/login">
+        Log In
+      </button>
+      <button mat-menu-item *ngIf="!(authService.authState$ | async)" routerLink="/signup">
+        Sign Up
+      </button>
+      <button mat-menu-item *ngIf="(authService.authState$ | async)" (click)="authService.logout()">
+        Log Out
+      </button>
+    </mat-menu>
+    
+  
+</mat-toolbar>
+    <!-- <nav class="navbar is-transparent is-light">
       <div class="container">
         
         <div class="navbar-brand">
-          <a class="nav-item" routerLink="/">feeed</a>
+          <a class="nav-item mat-display-1" routerLink="/" >feeed</a>
     
           <button class="button navbar-burger" (click)="toggleMenu()" [class.is-active]="menuOpen">
             <span></span>
@@ -19,19 +46,7 @@
           </div>
     
           <div class="navbar-end">
-            <!-- <a *ngIf="authService.isAuthenticated()" class="navbar-item">
-              Profile&nbsp;
-    
-              <img
-                *ngIf="profile"
-                src="{{profile?.picture}}"
-                class="avatar"
-                alt="avatar"
-                height="32"
-                width="32"
-              >
-            </a>
-          -->
+
             <a class="navbar-item" *ngIf="(authService.authState$ | async)">
               User: {{ (authService.user$ | async)?.email }}
             </a>
@@ -54,4 +69,4 @@
         </div>
       </div>
   
-    </nav>
+    </nav> -->

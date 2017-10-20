@@ -9,7 +9,8 @@ export interface IArticle {
   url: string,
   urlToImage: string,
   publishedAt: string,
-  source?: ISource
+  source?: ISource,
+  scale?: string
 }
 
 export class Article implements IArticle {

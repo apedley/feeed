@@ -1,5 +1,6 @@
+import { SidebarService } from '../sidebar/sidebar.service';
 import { AuthService } from '../../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ export class HeaderComponent implements OnInit {
   profile: any;
   menuOpen: boolean;
 
-  constructor(public authService: AuthService) { 
+  constructor(public authService: AuthService, private sidebarService: SidebarService) { 
     this.menuOpen = false;
     this.profile = null;
   }
@@ -21,7 +22,8 @@ export class HeaderComponent implements OnInit {
 
 
   toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
+    // this.menuOpen = !this.menuOpen;
+    this.sidebarService.toggle();
   }
 
 }

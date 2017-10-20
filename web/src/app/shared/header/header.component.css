@@ -1,0 +1,17 @@
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-icon {
+  padding: 0 14px;
+}
+
+.toolbar-text {
+  margin-right: 2em;
+  cursor: pointer;
+}
+
+mat-toolbar {
+  z-index: 10;
+  margin-bottom: 20px;
+}

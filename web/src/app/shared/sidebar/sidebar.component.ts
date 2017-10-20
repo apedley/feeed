@@ -5,7 +5,8 @@ import { IUser } from './../../auth/user.model';
 import { Observable } from 'rxjs/Rx';
 import { ISubscription } from '../../news/subscription.model';
 import { AuthService } from '../../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,6 +17,8 @@ export class SidebarComponent implements OnInit {
   profile: any;
   subscriptions: ISubscription[];
   user: IUser;
+
+  @Input() public sideNavRef: MatSidenav;
   
   searchResults: ISource[] = [];
 
@@ -27,7 +30,15 @@ export class SidebarComponent implements OnInit {
     })
   }
 
-  subscriptionClicked(subscription) {
+  subscriptionClicked(event, subscription) {
+    this.subscriptions.forEach(sub => {
+      
+      if (sub.active) {
+        
+        sub.active = false;
+      }
+    })
+    subscription.active = true;
     this.newsService.selectSubscription(subscription);
   }
 

@@ -1,0 +1,22 @@
+mat-card {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.mat-card-image {
+  cursor: pointer;
+}
+
+mat-card-title {
+  cursor: pointer;
+}
+
+.mat-headline {
+  text-align: center;
+  color: #673ab7
+}
+
+.mat-headline a {
+  color: #673ab7;
+  text-decoration: none;
+}

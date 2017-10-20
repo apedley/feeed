@@ -20,6 +20,7 @@ export interface ISubscription {
   language?: string;
   category?: string;
   user: IUser;
+  active?: boolean;
 }
 
 
