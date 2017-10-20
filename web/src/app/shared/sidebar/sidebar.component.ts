@@ -2,11 +2,12 @@
 import { ISource } from './../../news/source.model';
 import { NewsService } from '../../news/news.service';
 import { IUser } from './../../auth/user.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { ISubscription } from '../../news/subscription.model';
 import { AuthService } from '../../auth/auth.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material';
+import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,13 +19,22 @@ export class SidebarComponent implements OnInit {
   subscriptions: ISubscription[];
   user: IUser;
 
+  collapsed = false;
+  collapsible = true;
+
+  public isMobileView = false;
+  public subscriptionMedia: Subscription;
   @Input() public sideNavRef: MatSidenav;
   
   searchResults: ISource[] = [];
 
-  constructor(private authService: AuthService, private newsService: NewsService) { }
+  constructor(private authService: AuthService, private newsService: NewsService, public media: ObservableMedia) { }
 
   ngOnInit() {
+    this.isMobileView = (this.media.isActive('xs') || this.media.isActive('sm'));
+    this.subscriptionMedia = this.media.subscribe((change: MediaChange) => {
+      this.isMobileView = (change.mqAlias === 'xs' || change.mqAlias === 'sm');      
+    })
     this.authService.userSubscription.subscribe(user => {
       this.subscriptions = user.subscriptions;
     })

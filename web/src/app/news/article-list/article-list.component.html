@@ -15,7 +15,7 @@
     </mat-grid-list>
   </div>
 </div> -->
-
+<!-- 
 <div *ngIf="selectedSubscription">
   <h1 class="mat-headline">
     <a [attr.href]="selectedSubscription.url" target="_blank">
@@ -41,4 +41,31 @@
 </div>
 <div *ngIf="!selectedSubscription" fxLayout="column" fxLayoutAlign="center center">
   <h1 fxFlex="33" class="mat-headline">Select Subscription</h1>
+</div> -->
+<!-- <div class="row" *ngIf="selectedSubscription">
+  <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let article of articles"> -->
+    <div class="card-columns">
+      <div class="card clickable"  *ngFor="let article of articles">
+        <div class="card-img" (click)="articleClicked(article)">
+            <img *ngIf="article.urlToImage" [src]="article.urlToImage">
+            <img *ngIf="!article.urlToImage" src="/assets/news.jpg">
+        </div>
+        <div class="card-block" (click)="articleClicked(article)">
+            <div class="card-title">
+                {{article.title}}
+            </div>
+        <div class="card-text">
+            {{ article.description }}
+        </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-sm btn-link btn-icon">
+                <clr-icon shape="share"></clr-icon>                
+            </button>
+        </div>
+      </div>
 </div>
+
+<h2 *ngIf="!selectedSubscription">
+    Select Subscription
+</h2>

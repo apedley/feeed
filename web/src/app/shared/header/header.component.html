@@ -1,11 +1,39 @@
-<mat-toolbar color="primary" class="mat-elevation-z10">
+<clr-header class="header-3" [clr-nav-level]="2">
+<!-- <clr-header class="header-3" [clr-nav-level]="2"> -->
+    <div class="branding">
+        <a routerLink="/" class="nav-link">
+            <clr-icon shape="layers"></clr-icon>            
+            <span class="title">feeed</span>
+        </a>
+    </div>
+    <div class="header-nav">
+        <a routerLink="/" class="nav-link nav-text">Home</a>
+        <a routerLink="/sources" class="nav-link nav-text">Sources</a>
+    </div>
+    <div class="header-actions">
+        <clr-dropdown>
+            <button class="nav-icon" clrDropdownTrigger >
+                <!-- {{ (authService.user$ | async)?.email }} -->
+                <clr-icon shape="user"></clr-icon>
+            </button>
+            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <a clrDropdownItem *ngIf="(authService.authState$ | async)">Preferences</a>
+                <a (click)="authService.logout()" clrDropdownItem *ngIf="(authService.authState$ | async)">Log out</a>
+                <a *ngIf="!(authService.authState$ | async)" routerLink="/login" clrDropdownItem >Log In</a>
+                <a *ngIf="!(authService.authState$ | async)" routerLink="/signup" clrDropdownItem >Sign Up</a>
+            </clr-dropdown-menu>
+        </clr-dropdown> 
+    </div>
+</clr-header>
+
+<!-- <mat-toolbar color="primary" class="mat-elevation-z10">
     <button mat-icon-button class="toolbar-text" (click)="toggleMenu()">
       <mat-icon>menu</mat-icon>
     </button>
     <span routerLink="/" class="toolbar-text">feeed</span>
     <span routerLink="/sources" class="toolbar-text">Sources</span>
   
-    <!-- This fills the remaining space of the current row -->
+    
     <span class="toolbar-spacer"></span>
     <mat-icon class="toolbar-icon">settings</mat-icon>
     <button mat-icon-button [matMenuTriggerFor]="account">
@@ -17,7 +45,7 @@
         Log In
       </button>
       <button mat-menu-item *ngIf="!(authService.authState$ | async)" routerLink="/signup">
-        Sign Up
+        Sign Up 
       </button>
       <button mat-menu-item *ngIf="(authService.authState$ | async)" (click)="authService.logout()">
         Log Out
@@ -25,7 +53,7 @@
     </mat-menu>
     
   
-</mat-toolbar>
+</mat-toolbar> -->
     <!-- <nav class="navbar is-transparent is-light">
       <div class="container">
         

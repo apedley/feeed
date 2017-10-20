@@ -5,7 +5,7 @@
   </div>
 
  -->
-<mat-sidenav-container>
+<!-- <mat-sidenav-container>
   <mat-sidenav #sidenav class="sideNavBar"  mode="{{isMobileView?'over':'side'}}" opened="{{!isMobileView}}" disableClose="{{!isMobileView}}">
     
 
@@ -16,4 +16,11 @@
     <app-article-list></app-article-list>
     
   </div>
-</mat-sidenav-container>
+</mat-sidenav-container> -->
+
+<div class="content-container">
+  <app-sidebar></app-sidebar>
+    <div class="content-area">
+        <app-article-list></app-article-list>
+    </div>
+</div>
