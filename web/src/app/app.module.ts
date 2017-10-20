@@ -1,3 +1,4 @@
+
 import { SidebarService } from './shared/sidebar/sidebar.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -27,10 +28,11 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
-import { environment } from '../environments/environment';
+import { environment } from '@env/environment';
 import { NewsComponent } from './news/news.component';
 import { SourceListComponent } from './news/source-list/source-list.component';
 import { ArticleListComponent } from './news/article-list/article-list.component';
+import { SourceItemComponent } from './news/source-item/source-item.component';
 
 // const firebaseConfig = ;
 
@@ -45,7 +47,8 @@ import { ArticleListComponent } from './news/article-list/article-list.component
     FooterComponent,
     NewsComponent,
     SourceListComponent,
-    ArticleListComponent
+    ArticleListComponent,
+    SourceItemComponent
   ],
   imports: [
     BrowserModule,

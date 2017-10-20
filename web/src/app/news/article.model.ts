@@ -11,6 +11,7 @@ export interface IArticle {
   publishedAt: string,
   source?: ISource,
   scale?: string
+  
 }
 
 export class Article implements IArticle {
