@@ -63,10 +63,10 @@
     </div>
   </div>
 </div> -->
-
 <div [class.card-columns]="cardColumns > 1" [class.card-columns-2]="cardColumns === 2" [class.card-columns-4]="cardColumns === 4">
   <app-article-list-item *ngFor="let articleEl of articles" [article]="articleEl"></app-article-list-item>
 </div>
+
 
 
 <div class="page-spinner" *ngIf="articles.length == 0">

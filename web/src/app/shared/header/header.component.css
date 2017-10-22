@@ -15,3 +15,22 @@ mat-toolbar {
   z-index: 10;
   margin-bottom: 20px;
 }
+
+.title-logo {
+  margin-left: 15px;
+}
+
+.app-title {
+  margin-left: 22px;
+  font-size: .9rem;
+}
+
+.branding, .header-nav {
+  cursor: pointer
+}
+
+.header-3 {
+  -webkit-box-shadow: 0px -7px 33px 9px rgba(0,0,0,0.58);
+  -moz-box-shadow: 0px -7px 33px 9px rgba(0,0,0,0.58);
+  box-shadow: 0px -7px 33px 9px rgba(0,0,0,0.58);
+}

@@ -1,3 +1,11 @@
 .active {
   /* color: #673ab7 */
 }
+
+.sidenav {
+  border: none
+}
+
+.sidenav .nav-group .nav-list .nav-link.active {
+  background-color: #e7deef
+}

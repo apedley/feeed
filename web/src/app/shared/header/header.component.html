@@ -2,30 +2,43 @@
 <!-- <clr-header class="header-3" [clr-nav-level]="2"> -->
   <div class="branding">
     <a routerLink="/" class="nav-link">
-      <clr-icon shape="layers"></clr-icon>            
-      <span class="title">feeed</span>
+      <!-- <clr-icon shape="layers"></clr-icon>             -->
+      <img class="title-logo" src="/assets/logosmall.png">
+      <span class="title app-title">feeed</span>
     </a>
   </div>
   <div class="header-nav">
-    <a routerLink="/" class="nav-link nav-text">Home</a>
-    <a routerLink="/sources" class="nav-link nav-text">Sources</a>
+    <a routerLink="/news" routerLinkActive="active" class="nav-link nav-text" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a routerLink="/sources" routerLinkActive="active" class="nav-link nav-text">Sources</a>
   </div>
   <div class="header-actions">
+
     <clr-dropdown>
       <button class="nav-icon" clrDropdownTrigger >
         <!-- {{ (authService.user$ | async)?.email }} -->
-        <clr-icon shape="settings"></clr-icon>
+        <clr-icon shape="user"></clr-icon>
+        <clr-icon shape="caret down"></clr-icon>
       </button>
       <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-        <!-- <a clrDropdownItem *ngIf="(authService.authState$ | async)">Preferences</a> -->
+        <a clrDropdownItem *ngIf="loggedIn">{{ user.email }}</a>
         <a (click)="authService.logout()" clrDropdownItem *ngIf="loggedIn">Log out</a>
         <a *ngIf="!loggedIn" routerLink="/login" clrDropdownItem >Log In</a>
         <a *ngIf="!loggedIn" routerLink="/signup" clrDropdownItem >Sign Up</a>
-        <div class="dropdown-divider"></div>
-        <a href="https://github.com/apedley/feeed" target="_blank" clrDropdownItem>Github</a>
-        <a href="https://newsapi.org/" target="_blank" clrDropdownItem>Powered by NewsAPI.org</a>
         
       </clr-dropdown-menu>
     </clr-dropdown> 
+    <clr-dropdown>
+      <button class="nav-icon" clrDropdownTrigger >
+        <clr-icon shape="cog"></clr-icon>
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+
+        <a (click)="openSettings()" clrDropdownItem>Settings</a>
+        <div class="dropdown-divider"></div>
+        <a href="https://github.com/apedley/feeed" target="_blank" clrDropdownItem>Github</a>
+        <a href="https://newsapi.org/" target="_blank" clrDropdownItem>Powered by NewsAPI.org</a>
+      </clr-dropdown-menu>
+    </clr-dropdown>
   </div>
 </clr-header>

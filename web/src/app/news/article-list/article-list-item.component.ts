@@ -35,6 +35,11 @@ import { Component, OnInit, Input } from '@angular/core';
     p.card-info {
       margin-top: 0;
     }
+
+    .card.clickable:hover {
+      box-shadow: 0 0.125rem 0 0 #9B56BB;
+      border: 1px solid #9B56BB;
+    }
   `]
 })
 export class ArticleListItemComponent implements OnInit {

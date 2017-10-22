@@ -10,8 +10,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 export class HeaderComponent implements OnInit {
   profile: any;
   loggedIn = false;
+  user: IUser = null;
 
-  constructor(public authService: AuthService, private newsService: NewsService) { 
+  constructor(public authService: AuthService) { 
     
     this.profile = null;
   }
@@ -20,17 +21,15 @@ export class HeaderComponent implements OnInit {
     this.authService.userSubscription.subscribe(user => {
       if (user) {
         this.loggedIn = true;
+        this.user = user;
       } else {
         this.loggedIn = false;
       }
     });
   }
 
-  searchArticles(searchString) {
-    if (searchString.length < 4) { return }
-    this.newsService.searchArticles(searchString).subscribe(result => {
-      debugger;
-    })
-    
+  openSettings() {
+
   }
+
 }
