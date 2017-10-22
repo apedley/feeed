@@ -14,87 +14,18 @@
         <clr-dropdown>
             <button class="nav-icon" clrDropdownTrigger >
                 <!-- {{ (authService.user$ | async)?.email }} -->
-                <clr-icon shape="user"></clr-icon>
+                <clr-icon shape="settings"></clr-icon>
             </button>
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-                <a clrDropdownItem *ngIf="(authService.authState$ | async)">Preferences</a>
-                <a (click)="authService.logout()" clrDropdownItem *ngIf="(authService.authState$ | async)">Log out</a>
-                <a *ngIf="!(authService.authState$ | async)" routerLink="/login" clrDropdownItem >Log In</a>
-                <a *ngIf="!(authService.authState$ | async)" routerLink="/signup" clrDropdownItem >Sign Up</a>
+                <!-- <a clrDropdownItem *ngIf="(authService.authState$ | async)">Preferences</a> -->
+                <a (click)="authService.logout()" clrDropdownItem *ngIf="loggedIn">Log out</a>
+                <a *ngIf="!loggedIn" routerLink="/login" clrDropdownItem >Log In</a>
+                <a *ngIf="!loggedIn" routerLink="/signup" clrDropdownItem >Sign Up</a>
+                <div class="dropdown-divider"></div>
+                <a href="https://github.com/apedley/feeed" target="_blank" clrDropdownItem>Github</a>
+                <a href="https://newsapi.org/" target="_blank" clrDropdownItem>Powered by NewsAPI.org</a>
+                
             </clr-dropdown-menu>
         </clr-dropdown> 
     </div>
 </clr-header>
-
-<!-- <mat-toolbar color="primary" class="mat-elevation-z10">
-    <button mat-icon-button class="toolbar-text" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span routerLink="/" class="toolbar-text">feeed</span>
-    <span routerLink="/sources" class="toolbar-text">Sources</span>
-  
-    
-    <span class="toolbar-spacer"></span>
-    <mat-icon class="toolbar-icon">settings</mat-icon>
-    <button mat-icon-button [matMenuTriggerFor]="account">
-
-      <mat-icon>person</mat-icon>
-    </button>
-    <mat-menu #account="matMenu" yPosition="below">
-      <button mat-menu-item *ngIf="!(authService.authState$ | async)" routerLink="/login">
-        Log In
-      </button>
-      <button mat-menu-item *ngIf="!(authService.authState$ | async)" routerLink="/signup">
-        Sign Up 
-      </button>
-      <button mat-menu-item *ngIf="(authService.authState$ | async)" (click)="authService.logout()">
-        Log Out
-      </button>
-    </mat-menu>
-    
-  
-</mat-toolbar> -->
-    <!-- <nav class="navbar is-transparent is-light">
-      <div class="container">
-        
-        <div class="navbar-brand">
-          <a class="nav-item mat-display-1" routerLink="/" >feeed</a>
-    
-          <button class="button navbar-burger" (click)="toggleMenu()" [class.is-active]="menuOpen">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-    
-        <div class="navbar-menu" [class.is-active]="menuOpen">
-          <div class="navbar-start">
-              <a class="navbar-item" routerLink="/">Home</a>
-              <a class="navbar-item" routerLink="/sources">Sources</a>
-          </div>
-    
-          <div class="navbar-end">
-
-            <a class="navbar-item" *ngIf="(authService.authState$ | async)">
-              User: {{ (authService.user$ | async)?.email }}
-            </a>
-            
-            <a *ngIf="authService.authState$ | async" class="navbar-item">
-              <a (click)="authService.logout()">Log Out</a>
-            </a>
-    
-            <a *ngIf="!(authService.authState$ | async)" class="navbar-item">
-              <a routerLink="/login">Log In</a>
-            </a>
-            
-            <a  *ngIf="!(authService.authState$ | async)" class="navbar-item">
-              <a routerLink="/signup">Sign Up</a>
-            </a>
-
-            
-                        
-          </div>
-        </div>
-      </div>
-  
-    </nav> -->

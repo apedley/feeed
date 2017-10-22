@@ -1,3 +1,18 @@
 .auth-form-space-margin {
   margin: 10%;
 }
+
+.auth-form-space-margin {
+  margin: 10%;
+}
+.login-wrapper {
+  /* background-image: url(/assets/images/yourImage.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: right center; */
+  background: inherit;
+}
+.login-wrapper .login {
+  min-height: 70vh;
+}
+

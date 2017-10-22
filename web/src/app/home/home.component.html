@@ -1,26 +1,7 @@
-<!-- 
-  <div class="columns">
-    <app-sidebar class="column is-one-quarter mobile-hide sidebar"></app-sidebar>
-    <app-article-list class="column is-three-quarters home-view"></app-article-list>
-  </div>
-
- -->
-<!-- <mat-sidenav-container>
-  <mat-sidenav #sidenav class="sideNavBar"  mode="{{isMobileView?'over':'side'}}" opened="{{!isMobileView}}" disableClose="{{!isMobileView}}">
-    
-
-    <app-sidebar [sideNavRef]="sidenav"></app-sidebar>
-
-  </mat-sidenav>
-  <div class="content" fxLayout="column">
-    <app-article-list></app-article-list>
-    
-  </div>
-</mat-sidenav-container> -->
-
 <div class="content-container">
   <app-sidebar></app-sidebar>
     <div class="content-area">
-        <app-article-list></app-article-list>
+        <h3>{{ title }}</h3>
+        <app-article-list [articles]="articles"></app-article-list>
     </div>
 </div>

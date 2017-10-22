@@ -1,3 +1,43 @@
 div.loading {
   margin-top: 5em;
 }
+.page-spinner {
+  text-align: center;
+  margin: 15%;
+}
+
+.subscribe {
+  float: right;
+  margin-top: 0
+}
+
+.souces-list {
+  margin-top: 3em;
+}
+
+.sources-column {
+  padding: 0 2em;
+}
+/* 
+.search-list {
+  font-size: 1.5em;
+  padding: 1em 0;
+  margin: 1em 0;
+}
+
+
+select.filter {
+  width: auto
+}
+
+div.select {
+  display: inline
+} */
+
+.large-control {
+  font-size: 1.2em;
+}
+
+.filter-group {
+  padding-left: 0
+}

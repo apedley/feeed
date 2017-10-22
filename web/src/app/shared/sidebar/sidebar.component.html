@@ -1,114 +1,35 @@
-<!-- <nav class="panel">
-  <p class="panel-heading">
-    New Subscription
-  </p>
-  <div class="panel-block">
-    <p class="control has-icons-left">
-      <input type="text" class="input" (keyup)="searchSources($event.target.value)" placeholder="Search">
-      <span class="icon is-small is-left">
-        <i class="fa fa-search"></i>
-      </span>
-    </p>
-  </div>
-  <a class="panel-block" *ngFor="let result of searchResults" (click)="searchResultClicked(result)">
-      {{ result.name }}
-
-  </a>
-
-  <p class="panel-heading">
-    Subscriptions
-  </p>
-  <a class="panel-block has-icons-right" *ngFor="let sub of subscriptions" (click)="subscriptionClicked(sub)">
-    <span class="panel-icon">
-      <i class="fa fa-book"></i>
-    </span>
-    {{ sub.name }}
-  </a>
-</nav>
-<button mat-button>Click me!</button> -->
-
-<!-- <div>
-  <mat-list>
-    <h3 mat-subheader>Add New</h3>
-    
-    <mat-list-item>
-      <mat-form-field>
-      <input matInput placeholder="Search" (keyup)="searchSources($event.target.value)">
-    </mat-form-field>
-    </mat-list-item>
-</mat-list>
-<mat-nav-list>
-    <h3 mat-subheader>Subscriptions</h3>
-    <mat-list-item *ngFor="let sub of subscriptions"  (click)="subscriptionClicked($event, sub)" >
-        <mat-icon matListIcon>collections</mat-icon>
-        
-      <span [class.active]="sub.active">
-        {{ sub.name }}
-      </span>
-    </mat-list-item>
-    
-  </mat-nav-list>
-  
-</div> -->
-
-<!-- <clr-vertical-nav [clr-nav-level]="1">
-  <label class="nav-header">Subscriptions</label>
-    <a clrVerticalNavLink *ngFor="let sub of subscriptions" (click)="subscriptionClicked($event, sub)">
-        
-        <span [class.active]="sub.active">
-            {{ sub.name }}
-          </span>
-    </a>
-</clr-vertical-nav> -->
-
 <nav class="sidenav" [clr-nav-level]="1">
   <section class="sidenav-content">
-      <section class="nav-group">
-        <label>Add New</label>
-        <ul class="nav-list">
-          <li>
-            <input type="text" placeholder="Search">
-          </li>
-        </ul>
-        </section>
     <section class="nav-group">
-      <label>Subscriptions</label>
+    <ul class="nav-list">
+      <li>
+        <a class="nav-link" routerLink="/news" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+          true}">
+          Top Stories
+        </a>
+      </li>
+    </ul>
+    </section>
+    <section class="nav-group collapsible">
+      <input id="subs" type="checkbox">
+        
+      <label for="subs">Subscriptions</label>
       <ul class="nav-list">
         <li *ngFor="let sub of subscriptions">
-          <a [class.active]="sub.active" class="nav-link" (click)="subscriptionClicked($event, sub)">
+          <!-- <a [class.active]="sub.active" class="nav-link" (click)="subscriptionClicked($event, sub)"> -->
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/news', sub.sourceId]">
                 {{ sub.name }}
               </a>
         </li>
       </ul>
     </section>
+    <section class="nav-group collapsible">
+      <input id="add" type="checkbox">
+      <ul class="nav-list">
+        <li>
+          <a routerLink="/sources" class="nav-link">Add More</a>
+        </li>
+      </ul>
+    </section>
   </section>
 </nav>
-
-<!-- <a href="..." class="nav-link active">
-            Nav Element 1
-        </a>
-        <a href="..." class="nav-link">
-            Nav Element 2
-        </a>
-        <section class="nav-group collapsible">
-            <input id="tabexample1" type="checkbox">
-            <label for="tabexample1">Collapsible Nav Element</label>
-            <ul class="nav-list">
-                <li><a class="nav-link">Link 1</a></li>
-                <li><a class="nav-link">Link 2</a></li>
-            </ul>
-        </section>
-        <section class="nav-group">
-            <input id="tabexample2" type="checkbox">
-            <label for="tabexample2">Default Nav Element</label>
-            
-                <li><a class="nav-link">Link 1</a></li>
-                <li><a class="nav-link">Link 2</a></li>
-                <li><a class="nav-link active">Link 3</a></li>
-                <li><a class="nav-link">Link 4</a></li>
-                <li><a class="nav-link">Link 5</a></li>
-                <li><a class="nav-link">Link 6</a></li>
-            </ul>
-        </section>
-    </section>
-</nav> -->

@@ -2,8 +2,8 @@ import { environment } from './../../environments/environment';
 import { Source, ISource, ISourcesResponse } from './source.model';
 
 import { IArticle, IArticleResponse } from './article.model';
-import { Subject } from 'rxjs/Rx';
-import { Subscription } from './subscription.model';
+import { Subject, ReplaySubject } from 'rxjs/Rx';
+import { ISubscription, Subscription } from './subscription.model';
 import { AuthService } from './../auth/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -14,7 +14,7 @@ export class NewsService {
   private selectedSubscription: Subscription = null;
   selectedSubscriptionChanged = new Subject<Subscription>();
   private sources: Source[] = [];
-  sourcesChanged = new Subject<Source[]>();
+  sourcesSubscription = new ReplaySubject<Source[]>();
   private articles: IArticle[] = [];
   articlesChanged = new Subject<IArticle[]>();
 
@@ -23,46 +23,56 @@ export class NewsService {
     private http: HttpClient
   ) { }
 
-  selectSubscription(subscription: Subscription) {
-    this.selectedSubscription = subscription;
-    this.selectedSubscriptionChanged.next(this.selectedSubscription);
-    this.getArticles();
-  }
 
-  getArticles() {
-    if (!this.selectedSubscription) {
-      this.articles = [];
-      return;
+  getArticles(sourceId?) {
+    let url = 'http://beta.newsapi.org/v2/top-headlines?language=en&';
+    if (sourceId) {
+      url = `http://beta.newsapi.org/v2/top-headlines?sources=${sourceId}&`;
     }
-    const body = {
-      
-      url: `http://beta.newsapi.org/v2/top-headlines?sources=${this.selectedSubscription.sourceId}&`
-    }
-    const url = `${environment.apiBaseUrl}/news/request`;
-
-    
-
-    this.http.post<IArticleResponse>(url, body, {
+    const body = {   
+      url,
+      limit: 25
+    };
+    const localUrl = `${environment.apiBaseUrl}/news/request`;
+    return this.http.post<IArticleResponse>(localUrl, body, {
       headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
     }).subscribe(response => {
+      if (response.status !== 'ok' || !response.articles) {
+        return console.dir(response);
+      }
       this.articles = response.articles;
       this.articlesChanged.next(this.articles.slice());
     })
   }
 
   getSources() {
+    if (this.sources.length < 1) {
+      this._fetchSources().subscribe(response => {
+        this.sources = response.sources;
+        this.sourcesSubscription.next(this.sources.slice());
+      })
+    }
+  }
 
+  getSource(id) {
+    if (this.sources.length < 1) {
+      this._fetchSources().subscribe(response => {
+        this.sources = response.sources;
+        this.sourcesSubscription.next(this.sources.slice());
+      })
+    }
+    return this.sourcesSubscription.map(sources => sources.filter(source => source.id === id)[0]);
+  }
+
+  private _fetchSources() {
     const body = {
       url: `http://beta.newsapi.org/v2/sources?language=en&`
     }
     const url = `${environment.apiBaseUrl}/news/request`;
     
-    this.http.post<ISourcesResponse>(url, body, {
+    return this.http.post<ISourcesResponse>(url, body, {
       headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
-    }).subscribe(response => {
-      this.sources = response.sources;
-      this.sourcesChanged.next(this.sources.slice());
-    })    
+    })
   }
 
   searchSources(text: string): ISource[] {
@@ -84,19 +94,23 @@ export class NewsService {
   addSubscription(source: ISource) {
     const url = `${environment.apiBaseUrl}/users/subscribe`;
 
-    
     const data = {
       ...source,
       sourceId: source.id
     };
 
     delete data.id;
-
-    this.http.post(url, data, {
+    return this.http.post<ISubscription>(url, data, {
       headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
-    }).subscribe(response => {
-      this.authService.updateUser();
     })
 
+  }
+
+  removeSubscription(subscription: ISubscription) {
+    const url = `${environment.apiBaseUrl}/users/unsubscribe`;
+
+    return this.http.post(url, subscription, {
+      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)
+    });
   }
 }

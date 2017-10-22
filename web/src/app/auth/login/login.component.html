@@ -1,5 +1,24 @@
+<div class="login-wrapper">
+    <form class="login" (ngSubmit)="onLoginFormSubmit()" [formGroup]="loginForm">
+      <label class="title">
+            <h3 class="welcome">Log In</h3>
+          </label>
+      <div class="login-group">
+          
+          <input class="username" type="email" id="email" name="email" placeholder="Email" formControlName="email">
+        
+          <input class="password" type="password" id="password" name="password" placeholder="Password" formControlName="password">
 
-<div class="columns is-centered ">
+        <div class="error" [class.active]="error !== ''">
+          {{ error }}
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid || formLoading">Log In</button>
+        <a routerLink="/signup" class="signup">Sign Up</a>
+      </div>
+    </form>
+  </div>
+
+<!-- <div class="columns is-centered ">
   <div class="column is-one-third-desktop is-narrow auth-form-space-margin">
       <h1 class="title">Login In</h1>
 
@@ -27,5 +46,4 @@
     </div>
 
   </form>
-</div>
-
+</div> -->

@@ -1,3 +1,9 @@
 .auth-form-space-margin {
   margin: 10%;
 }
+.login-wrapper {
+background: inherit;
+}
+.login-wrapper .login {
+  min-height: 70vh;
+}

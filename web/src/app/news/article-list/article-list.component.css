@@ -20,3 +20,9 @@ mat-card-title {
   color: #673ab7;
   text-decoration: none;
 }
+
+
+.page-spinner {
+  text-align: center;
+  margin: 15%;
+}

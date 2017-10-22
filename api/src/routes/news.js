@@ -5,28 +5,15 @@ import { sendError, firebaseAuthTokenMiddleware } from '../utils';
 export default ({ config }) => {
   let api = Router();
 
-  // api.get('/sources/:language', (req, res) => {
-  //   const url = `${config.newsBaseUrl}/sources?apiKey=${config.newsApiKey}&language=${req.params.language}`;
-    
-
-  //   Request.get(url, (err, response, body) => {
-  //     const jsonData = JSON.parse(body);
-  //     if (jsonData.status !== 'ok') {
-  //       return sendError(res, 'not a good list')
-  //     }
-
-  //     return res.json(jsonData);
-  //   });
-  // });
-
-
   api.post('/request', firebaseAuthTokenMiddleware, (req, res, next) => {
 
     const requestData = req.body;
-
+    
     if (!requestData.url) {
       return sendError(res, 'Missing url');
     }
+
+    const resultLimit = requestData.limit || 100;
 
     const lastUrlCharacter = requestData.url[requestData.url.length-1];
     
@@ -40,6 +27,10 @@ export default ({ config }) => {
       const jsonData = JSON.parse(body);
       if (jsonData.status !== 'ok') {
         return sendError(res, jsonData.message)
+      }
+
+      if (Array.isArray(jsonData.articles)) {
+        jsonData.articles = jsonData.articles.slice(0, resultLimit);
       }
 
       return res.json(jsonData);

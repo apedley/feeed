@@ -1,30 +1,69 @@
-<div class="content has-text-centered loading" *ngIf="sources.length == 0">
-  <img src="/assets/loading.gif"  >
+
+<!-- <div class="col-lg-10 push-lg-1">
+<clr-datagrid>
+    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+    <clr-dg-column [clrDgField]="'description'">Description</clr-dg-column>
+    <clr-dg-column [clrDgField]="'category'">Category</clr-dg-column>
+    <clr-dg-column [clrDgField]="'country'">Country</clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let source of sources">
+      <clr-dg-cell>{{ source.name }}</clr-dg-cell>
+      <clr-dg-cell>{{ source.description }}</clr-dg-cell>
+      <clr-dg-cell>{{ source.category }}</clr-dg-cell>
+      <clr-dg-cell>{{ source.country }}</clr-dg-cell>
+    </clr-dg-row>
+  </clr-datagrid>
+</div> -->
+<div class="page-spinner" *ngIf="availableSubscriptions.length == 0">
+  <span class="spinner spinner-lg">
+    Loading...
+  </span>
 </div>
-<div *ngIf="sources.length">
-<input (keyup)="searchEntered()">
-<table class="table">
-    
-  <thead>
-    <tr>
-      <th *ngFor="let column of columns" (click)="sortColumn(column)">
-        {{ column }}
-      </th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="card" *ngFor="let source of sources">
-      <td> {{ source.name }} </td>
-      <td> {{ source.description }} </td>
-      <td> {{ source.category | titlecase }} </td>
-      <td> {{ source.country | uppercase }} </td>
-      <td> 
-        <a class="button">
-          <div class="icon"><i class="fa fa-plus"></i></div>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="row souces-list" *ngIf="availableSubscriptions.length">
+  <div class="col-md-10 push-md-1 col-lg-8 push-lg-2 sources-column">
+    <form>
+    <section class="form-block">
+      <div class="form-group filter-group">
+        <input type="text" placeholder="Search" (keyup)="search($event)" class="search-list large-control">
+        <div class="select">
+          <select id="category" class="large-control" (change)="categoryChanged($event.target.value)">
+            <option [ngValue]="null">Category</option>
+            <option *ngFor="let key of categories | objectKeys" [value]="key">
+              {{ categories[key] }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </section>
+  </form>
+    <clr-tabs>
+      <clr-tab>
+        <button clrTabLink id="available">Available</button>
+        <clr-tab-content id="availableContent" *clrIfActive>
+          <div *ngFor="let source of availableSubscriptions | sourceFilterPipe: searchString: selectedCategory">
+            <button class="btn btn-sm btn-outline subscribe" (click)="subscribeClicked(source)">Subscribe</button>
+            <button class="btn btn-sm btn-outline subscribe" [routerLink]="['/news', source.id]">View</button>
+            <h3>{{ source.name }} ({{ categories[source.category] || ( source.category | titlecase )  }} - {{ source.country | uppercase }})</h3>
+            
+            <p class="p1">
+              {{ source.description }}
+            </p>
+          </div>
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+          <button clrTabLink id="subscribed">Subscribed</button>
+          <clr-tab-content id="subscribedContent" *clrIfActive>
+            <div *ngFor="let subscription of subscriptions | sourceFilterPipe: searchString: selectedCategory">
+              <button class="btn btn-sm btn-danger-outline subscribe" (click)="unSubscribeClicked(subscription)">Unsubscribe</button>
+              <h3>{{ subscription.name }}</h3>
+              
+              <p class="p1">
+                  ( {{ categories[subscription.category] }} - {{ subscription.country | uppercase }} ) {{ subscription.description }}
+              </p>
+            </div>
+          </clr-tab-content>
+        </clr-tab>      
+    </clr-tabs>
+  </div>
 </div>

@@ -1,5 +1,69 @@
+<div class="login-wrapper">
+  <form class="login" (ngSubmit)="onSignUpFormSubmit()" [formGroup]="signupForm">
+    <label class="title">
+          <h3 class="welcome">Sign Up</h3>
+        </label>
+    <div class="login-group">
+        
+        
+      <label for="email" 
+        aria-haspopup="true" 
+        role="tooltip" 
+        class="tooltip tooltip-validation tooltip-sm" 
+        [class.invalid]="signupForm.get('email').invalid && signupForm.get('email').touched">
+        <input class="username" type="email" id="email" name="email" placeholder="Email" formControlName="email">
+        <span class="tooltip-content">
+          Enter a valid email address.
+        </span>
+      </label>
+      <label for="password" 
+      aria-haspopup="true" 
+      role="tooltip" 
+      class="tooltip tooltip-validation tooltip-sm" 
+      [class.invalid]="signupForm.get('password').invalid && signupForm.get('password').touched">
+        <input class="password" type="password" id="password" name="password" placeholder="Password" formControlName="password">
+        <span class="tooltip-content">
+          Password must be at least 6 characters long.
+        </span>
+      </label>
+      <label for="confirm" 
+      aria-haspopup="true" 
+      role="tooltip" 
+      class="tooltip tooltip-validation tooltip-sm"
+      [class.invalid]="signupForm.get('confirm').invalid && signupForm.get('confirm').touched">
+        <input class="password" type="password" id="confirm" name="confirm" placeholder="Confirm Password" formControlName="confirm">
+        <span class="tooltip-content">
+          Passwords must match.
+        </span>
+      </label>
+      <div class="error" [class.active]="error !== ''">
+        {{ error }}
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!signupForm.valid || formLoading">Sign Up</button>
+      <a routerLink="/login" class="signup">Log In</a>
+    </div>
+  </form>
+</div>
 
-<div class="columns is-centered ">
+<!-- <div class="login-wrapper">
+  <form class="login" (ngSubmit)="onSignUpFormSubmit(f)" #f="ngForm">
+    <label class="title">
+        <h3 class="welcome">Sign Up</h3>
+      </label>
+    <div class="login-group">
+      <input class="username" type="email" id="email" name="email" placeholder="Email" ngModel required>
+      <input class="password" type="password" id="password" name="password" placeholder="Password" ngModel required minlength="6">
+      <input class="password" type="password" id="confirm" name="confirm" placeholder="Confirm Password" ngModel required minlength="6">
+      <div class="error active">
+        Error
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Sign Up</button>
+      <a routerLink="/signup" class="signup">Log In</a>
+    </div>
+  </form>
+</div> -->
+
+<!-- <div class="columns is-centered ">
   <div class="column is-one-third-desktop is-narrow auth-form-space-margin">
     <h1 class="title">Sign Up</h1>
 
@@ -34,4 +98,4 @@
 
     </form>
   </div>
-</div>
+</div> -->

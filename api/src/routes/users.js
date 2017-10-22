@@ -10,7 +10,7 @@ import {
 import User from '../models/user';
 import Subscription from '../models/subscription';
 
-export default ({ config }) => {
+export default () => {
   let api = Router();
 
   // get info
@@ -22,24 +22,10 @@ export default ({ config }) => {
       return sendError(res, 'authId required');
     }
 
-    // User.findOne(
-    //   { authId },
-    //   (err, user) => {
-    //     if (err) {
-    //       return sendError(res, err);
-    //     }
-
-    //     if (!user) {
-    //       return sendError(res, 'Did not get a response');
-    //     }
-
-    //     res.status(200).json(user.toObject());
-    //   })
-
     User.findOne({ authId })
       .populate('subscriptions')
       .exec((err, user) => {
-        debugger;
+        
         if (err) {
           return sendError(res, err);
         }
@@ -60,7 +46,7 @@ export default ({ config }) => {
 
     console.info('token' + firebaseToken);
 
-
+    debugger;
     if (!email) {
       return sendError(res, 'Email required');
     }
@@ -69,7 +55,7 @@ export default ({ config }) => {
       .then(decodedToken => {
         console.log('decoded', decodedToken);
       }).catch(err => {
-        console.log(err) 
+        console.log('error: ', err) 
       })
 
     User.findOneAndUpdate(
@@ -115,7 +101,7 @@ export default ({ config }) => {
           return sendError(res, err);
         }
 
-        res.status(200).json({
+        res.status(201).json({
           user: user.toObject()
         });
       })
@@ -131,7 +117,10 @@ export default ({ config }) => {
 
     const subscriptionData = req.body;
 
-    User.findOne({ authId }, (err, user) => {
+    User.findOne({ authId })
+      .populate('subscriptions')
+      .exec((err, user) => {
+
       if (err) {
         return sendError(res, err);
       }
@@ -140,11 +129,16 @@ export default ({ config }) => {
         return sendError(res, 'Did not get a response');
       }
 
+      for (let i = 0; i < user.subscriptions.length; i++) {
+        if (user.subscriptions[i].sourceId === subscriptionData.sourceId) {
+          return sendError(res, 'User is already subscribed');
+        }
+      }
       const data = {
         ...subscriptionData,
         user: user._id
       }
-      debugger;
+
 
       const subscription = new Subscription(data);
 
@@ -159,14 +153,47 @@ export default ({ config }) => {
             return sendError(res, err);
           }
 
-          res.status(200).json({
-            subscription: subscription.toObject()
-          });
+          res.status(201).json(subscription.toObject());
         })
                 
       })
     })
 
   })
+
+  api.post('/unsubscribe', firebaseAuthTokenMiddleware, (req, res) => {
+    let authId = res.locals.token.uid;
+
+    if (!authId) {
+      return sendError(res, 'authId required');
+    }
+
+    const subscriptionData = req.body;
+    User.findOne({ authId })
+      .populate('subscriptions')
+      .exec((err, user) => {
+        if (err) {
+          return sendError(res, err);
+        }
+        debugger;
+        Subscription.findOneAndRemove({ sourceId: subscriptionData.sourceId, user: user._id}, (findRemoveErr, subscription) => {
+          
+          if (findRemoveErr) {
+            return sendError(res, findRemoveErr);
+          }
+          User.update({ authId}, { $pull: { 'subscriptions':  subscription._id}  }, (updateErr, result) => {
+            
+            if (updateErr) {
+              return sendError(res, updateErr);
+            }
+
+            return res.status(200).json({
+              "status": "ok"
+            })
+          })
+        })
+
+      });
+  });
   return api;
 }

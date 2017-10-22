@@ -9,7 +9,8 @@
     "build": "babel src -s -D -d dist --presets es2015,stage-0",
     "start": "node dist",
     "prestart": "npm run -s build",
-    "test": "eslint src",
+    "test": "mocha --require babel-register test",
+    "watch": "nodemon --watch . --exec \"NODE_ENV=test mocha --require babel-register test\"",
     "clean": "rm -rf dist"
   },
   "eslintConfig": {
@@ -41,9 +42,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-jest": "^21.2.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
     "eslint": "^4.8.0",
-    "nodemon": "^1.12.1"
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "sinon": "^4.0.1",
+    "supertest": "^3.0.0"
   }
 }

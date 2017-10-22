@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import firebaseAdmin from 'firebase-admin';
 
 import mongoose from 'mongoose';
-
+mongoose.Promise = global.Promise;
 
 import newsRoutes from './routes/news';
 import usersRoutes from './routes/users';
@@ -23,10 +23,11 @@ if (env !== 'test') {
 }
 
 app.use(cors());
+app.use(bodyParser.json());
 
-app.use(bodyParser.json({
-  limit: config.bodyLimit
-}));
+// app.use(bodyParser.json({
+//   limit: config.bodyLimit
+// }));
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(config.firebaseAdmin),
@@ -48,3 +49,4 @@ if (!module.parent) {
 }
 
 export default app;
+module.exports = app;

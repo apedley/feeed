@@ -1,3 +1,4 @@
+import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
@@ -9,13 +10,12 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class UnauthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private afAuth: AngularFireAuth, private router: Router) {}
 
   canActivate(): Observable<boolean> {
     
-    return this.authService.authState$.take(1).map(authState => !authState).do(unauthenticated => {
+    return this.afAuth.authState.take(1).map(authState => !authState).do(unauthenticated => {
       if (!unauthenticated) {
-        // debugger;
         this.router.navigate(['/']);
       }
   });

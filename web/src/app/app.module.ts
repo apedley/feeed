@@ -1,5 +1,8 @@
+import { UIService } from './shared/ui.service';
+import { ObjectKeysPipe } from './news/source-list/object-keys.pipe';
+import { SourceFilterPipe } from './news/source-list/source-filter.pipe';
+import { ArticleListItemComponent } from './news/article-list/article-list-item.component';
 
-import { SidebarService } from './shared/sidebar/sidebar.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NewsService } from './news/news.service';
@@ -10,8 +13,9 @@ import { AuthGuard } from './auth/auth-guard.service';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { AuthService } from './auth/auth.service';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
@@ -28,10 +32,8 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
 import { environment } from '@env/environment';
-import { NewsComponent } from './news/news.component';
 import { SourceListComponent } from './news/source-list/source-list.component';
 import { ArticleListComponent } from './news/article-list/article-list.component';
-import { SourceItemComponent } from './news/source-item/source-item.component';
 
 // const firebaseConfig = ;
 
@@ -44,10 +46,11 @@ import { SourceItemComponent } from './news/source-item/source-item.component';
     SidebarComponent,
     HeaderComponent,
     FooterComponent,
-    NewsComponent,
     SourceListComponent,
     ArticleListComponent,
-    SourceItemComponent
+    ArticleListItemComponent,
+    SourceFilterPipe,
+    ObjectKeysPipe
   ],
   imports: [
     BrowserModule,
@@ -60,15 +63,16 @@ import { SourceItemComponent } from './news/source-item/source-item.component';
     HttpModule,
     HttpClientModule,
     FlexLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthService,
     AuthGuard,
     UnauthGuard,
     NewsService,
-    SidebarService
-    
+    Title,
+    UIService
   ],
   bootstrap: [AppComponent]
 })

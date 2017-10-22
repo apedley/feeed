@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 const subscriptionSchema = new mongoose.Schema({
   sourceId: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   name: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
     type: String
@@ -29,7 +29,7 @@ const subscriptionSchema = new mongoose.Schema({
   }
 } , {
   toObject: {
-    transform: (doc, ret, game) => {
+    transform: (doc, ret) => {
       delete ret.__v;
       delete ret._id;
     }

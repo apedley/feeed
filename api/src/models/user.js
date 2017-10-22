@@ -29,14 +29,6 @@ const userSchema = new mongoose.Schema({
   }
 })
 
-// userSchema.virtual('userObject').get( () => {
-//   return {
-//     email: this.email,
-//     authId: this.authId,
-//     language: this.language
-//   }
-// })
-
 const ModelClass = mongoose.model('user', userSchema);
 
 module.exports = ModelClass;

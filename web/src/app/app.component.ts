@@ -2,8 +2,6 @@ import { AuthService } from './auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../environments/environment';
 
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 
@@ -18,13 +16,7 @@ export class AppComponent implements OnInit {
   
   ngOnInit() {
   }
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase) {
-    // this.items = af.list('/messages', {
-    //   query: {
-    //     limitToLast: 50
-    //   }
-    // });
-
+  constructor() {
 
   }
 

@@ -1,4 +1,4 @@
-import { SidebarService } from '../sidebar/sidebar.service';
+import { IUser } from './../../auth/user.model';
 import { AuthService } from '../../auth/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
@@ -11,19 +11,21 @@ export class HeaderComponent implements OnInit {
   profile: any;
   menuOpen: boolean;
 
-  constructor(public authService: AuthService, private sidebarService: SidebarService) { 
+  loggedIn = false;
+
+  constructor(public authService: AuthService) { 
     this.menuOpen = false;
     this.profile = null;
   }
 
   ngOnInit() {
-
-  }
-
-
-  toggleMenu(): void {
-    // this.menuOpen = !this.menuOpen;
-    this.sidebarService.toggle();
+    this.authService.userSubscription.subscribe(user => {
+      if (user) {
+        this.loggedIn = true;
+      } else {
+        this.loggedIn = false;
+      }
+    });
   }
 
 }
