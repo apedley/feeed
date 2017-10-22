@@ -5,7 +5,7 @@ import { IUser } from './../../auth/user.model';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { ISubscription } from '../../news/subscription.model';
 import { AuthService } from '../../auth/auth.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 
 @Component({
@@ -23,6 +23,8 @@ export class SidebarComponent implements OnInit {
 
   searchResults: ISource[] = [];
 
+  @Output() onSearch = new EventEmitter<string>();
+
 
   constructor(private authService: AuthService, private newsService: NewsService) { }
 
@@ -33,6 +35,10 @@ export class SidebarComponent implements OnInit {
       }
       this.subscriptions = user.subscriptions;
     });
+  }
+
+  searchArticles(value) {
+    this.onSearch.emit(value);
   }
   
 }

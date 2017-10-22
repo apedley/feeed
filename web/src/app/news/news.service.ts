@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Source, ISource, ISourcesResponse } from './source.model';
 
 import { IArticle, IArticleResponse } from './article.model';
-import { Subject, ReplaySubject } from 'rxjs/Rx';
+import { Observable, ReplaySubject, Subject } from 'rxjs/Rx';
 import { ISubscription, Subscription } from './subscription.model';
 import { AuthService } from './../auth/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -13,8 +13,10 @@ export class NewsService {
 
   private selectedSubscription: Subscription = null;
   selectedSubscriptionChanged = new Subject<Subscription>();
+
   private sources: Source[] = [];
   sourcesSubscription = new ReplaySubject<Source[]>();
+
   private articles: IArticle[] = [];
   articlesChanged = new Subject<IArticle[]>();
 
@@ -23,7 +25,7 @@ export class NewsService {
     private http: HttpClient
   ) { }
 
-
+  
   getArticles(sourceId?) {
     let url = 'http://beta.newsapi.org/v2/top-headlines?language=en&';
     if (sourceId) {
@@ -90,6 +92,29 @@ export class NewsService {
 
     return sources;
   }
+  searchArticles(searchString: string) {
+    const body = {
+      url: `http://beta.newsapi.org/v2/everything?q=${searchString}&`
+    };
+
+    const url = `${environment.apiBaseUrl}/news/request`;
+    this.http.post<IArticleResponse>(url, body, {
+      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
+    }).subscribe(articlesResponse => {
+      this.articles = articlesResponse.articles;
+      this.articlesChanged.next(this.articles);
+    });
+  }
+  // searchArticles(searchString: string): Observable<IArticleResponse> {
+  //   const body = {
+  //     url: `http://beta.newsapi.org/v2/everything?q=${searchString}&`
+  //   };
+
+  //   const url = `${environment.apiBaseUrl}/news/request`;
+  //   return this.http.post<IArticleResponse>(url, body, {
+  //     headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
+  //   });
+  // }
 
   addSubscription(source: ISource) {
     const url = `${environment.apiBaseUrl}/users/subscribe`;

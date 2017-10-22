@@ -1,7 +1,7 @@
+import { NewsService } from './../../news/news.service';
 import { IUser } from './../../auth/user.model';
 import { AuthService } from '../../auth/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,12 +9,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   profile: any;
-  menuOpen: boolean;
-
   loggedIn = false;
 
-  constructor(public authService: AuthService) { 
-    this.menuOpen = false;
+  constructor(public authService: AuthService, private newsService: NewsService) { 
+    
     this.profile = null;
   }
 
@@ -28,4 +26,11 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  searchArticles(searchString) {
+    if (searchString.length < 4) { return }
+    this.newsService.searchArticles(searchString).subscribe(result => {
+      debugger;
+    })
+    
+  }
 }

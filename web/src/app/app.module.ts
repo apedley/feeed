@@ -1,3 +1,4 @@
+
 import { UIService } from './shared/ui.service';
 import { ObjectKeysPipe } from './news/source-list/object-keys.pipe';
 import { SourceFilterPipe } from './news/source-list/source-filter.pipe';
@@ -7,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NewsService } from './news/news.service';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { UnauthGuard } from './auth/unauth-guard.service';
 import { AuthGuard } from './auth/auth-guard.service';
@@ -34,6 +37,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { environment } from '@env/environment';
 import { SourceListComponent } from './news/source-list/source-list.component';
 import { ArticleListComponent } from './news/article-list/article-list.component';
+
 
 // const firebaseConfig = ;
 

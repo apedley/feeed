@@ -60,5 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.articlesSubscription.unsubscribe();
   }
 
+  onSearch(searchString: string) {
+    this.newsService.searchArticles(searchString);
+  }
 
 }

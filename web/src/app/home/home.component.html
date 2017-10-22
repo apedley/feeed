@@ -1,5 +1,5 @@
 <div class="content-container">
-  <app-sidebar></app-sidebar>
+  <app-sidebar (onSearch)="onSearch($event)"></app-sidebar>
     <div class="content-area">
         <h3>{{ title }}</h3>
         <app-article-list [articles]="articles"></app-article-list>

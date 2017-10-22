@@ -19,13 +19,21 @@ import { Component, OnInit, Input } from '@angular/core';
     </div>
   </div>
   <div class="card-footer">
-    <a class="card-link" [routerLink]="['/news', article.source.id]">{{ article.source.name }}</a>
+    <span *ngIf="article.source.id && article.source.name">
+      <a class="card-link" [routerLink]="['/news', article.source.id]">{{ article.source.name }}</a>
+    </span>
+    <span *ngIf="article.source.name && !article.source.id">
+      <p class="card-info">{{ article.source.name }}</p>
+    </span>
   </div>
   `,
   styles: [`
     .app-article-card-img {
       max-height: 200px;
       object-fit: cover;
+    }
+    p.card-info {
+      margin-top: 0;
     }
   `]
 })

@@ -1,31 +1,31 @@
 <clr-header class="header-3" [clr-nav-level]="2">
 <!-- <clr-header class="header-3" [clr-nav-level]="2"> -->
-    <div class="branding">
-        <a routerLink="/" class="nav-link">
-            <clr-icon shape="layers"></clr-icon>            
-            <span class="title">feeed</span>
-        </a>
-    </div>
-    <div class="header-nav">
-        <a routerLink="/" class="nav-link nav-text">Home</a>
-        <a routerLink="/sources" class="nav-link nav-text">Sources</a>
-    </div>
-    <div class="header-actions">
-        <clr-dropdown>
-            <button class="nav-icon" clrDropdownTrigger >
-                <!-- {{ (authService.user$ | async)?.email }} -->
-                <clr-icon shape="settings"></clr-icon>
-            </button>
-            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-                <!-- <a clrDropdownItem *ngIf="(authService.authState$ | async)">Preferences</a> -->
-                <a (click)="authService.logout()" clrDropdownItem *ngIf="loggedIn">Log out</a>
-                <a *ngIf="!loggedIn" routerLink="/login" clrDropdownItem >Log In</a>
-                <a *ngIf="!loggedIn" routerLink="/signup" clrDropdownItem >Sign Up</a>
-                <div class="dropdown-divider"></div>
-                <a href="https://github.com/apedley/feeed" target="_blank" clrDropdownItem>Github</a>
-                <a href="https://newsapi.org/" target="_blank" clrDropdownItem>Powered by NewsAPI.org</a>
-                
-            </clr-dropdown-menu>
-        </clr-dropdown> 
-    </div>
+  <div class="branding">
+    <a routerLink="/" class="nav-link">
+      <clr-icon shape="layers"></clr-icon>            
+      <span class="title">feeed</span>
+    </a>
+  </div>
+  <div class="header-nav">
+    <a routerLink="/" class="nav-link nav-text">Home</a>
+    <a routerLink="/sources" class="nav-link nav-text">Sources</a>
+  </div>
+  <div class="header-actions">
+    <clr-dropdown>
+      <button class="nav-icon" clrDropdownTrigger >
+        <!-- {{ (authService.user$ | async)?.email }} -->
+        <clr-icon shape="settings"></clr-icon>
+      </button>
+      <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        <!-- <a clrDropdownItem *ngIf="(authService.authState$ | async)">Preferences</a> -->
+        <a (click)="authService.logout()" clrDropdownItem *ngIf="loggedIn">Log out</a>
+        <a *ngIf="!loggedIn" routerLink="/login" clrDropdownItem >Log In</a>
+        <a *ngIf="!loggedIn" routerLink="/signup" clrDropdownItem >Sign Up</a>
+        <div class="dropdown-divider"></div>
+        <a href="https://github.com/apedley/feeed" target="_blank" clrDropdownItem>Github</a>
+        <a href="https://newsapi.org/" target="_blank" clrDropdownItem>Powered by NewsAPI.org</a>
+        
+      </clr-dropdown-menu>
+    </clr-dropdown> 
+  </div>
 </clr-header>

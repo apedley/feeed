@@ -10,6 +10,13 @@
       </li>
     </ul>
     </section>
+    <section class="nav-group">
+    <ul class="nav-list">
+      <li>
+        <input id="searchNews" type="text" placeholder="Search for stories" (keyup.enter)="searchArticles($event.target.value)">
+      </li>
+    </ul>
+    </section>
     <section class="nav-group collapsible">
       <input id="subs" type="checkbox">
         
