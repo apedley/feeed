@@ -13,13 +13,8 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
 
-  private selectedSubscriptionSubscription: Subscription;
-  public selectedSubscription: AppSubscription;
-
-  // private articlesSubscription: Subscription;
-  // public articles: IArticle[] = [];
   
-  constructor(private newsService: NewsService, public media: ObservableMedia, private authService: AuthService) { }
+  constructor(public media: ObservableMedia) { }
 
   private mediaSubscription: Subscription;
 

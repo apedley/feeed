@@ -105,16 +105,6 @@ export class NewsService {
       this.articlesChanged.next(this.articles);
     });
   }
-  // searchArticles(searchString: string): Observable<IArticleResponse> {
-  //   const body = {
-  //     url: `http://beta.newsapi.org/v2/everything?q=${searchString}&`
-  //   };
-
-  //   const url = `${environment.apiBaseUrl}/news/request`;
-  //   return this.http.post<IArticleResponse>(url, body, {
-  //     headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
-  //   });
-  // }
 
   addSubscription(source: ISource) {
     const url = `${environment.apiBaseUrl}/users/subscribe`;

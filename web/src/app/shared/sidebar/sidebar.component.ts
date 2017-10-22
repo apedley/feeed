@@ -15,8 +15,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
   profile: any;
-  subscriptions: ISubscription[];
-  user: IUser;
 
   collapsed = false;
   collapsible = true;
@@ -24,17 +22,17 @@ export class SidebarComponent implements OnInit {
   searchResults: ISource[] = [];
 
   @Output() onSearch = new EventEmitter<string>();
+  @Input() subscriptions: ISubscription[];
 
-
-  constructor(private authService: AuthService, private newsService: NewsService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.authService.userSubscription.subscribe(user => {
-      if (!user) {
-        return this.subscriptions = []; 
-      }
-      this.subscriptions = user.subscriptions;
-    });
+    // this.authService.userSubscription.subscribe(user => {
+    //   if (!user) {
+    //     return this.subscriptions = []; 
+    //   }
+    //   this.subscriptions = user.subscriptions;
+    // });
   }
 
   searchArticles(value) {

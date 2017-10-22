@@ -1,10 +1,11 @@
+import { AuthService } from '../auth/auth.service';
 import { UIService } from '../shared/ui.service';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 
 import { Article } from './../news/article.model';
 import { Subscription } from 'rxjs/Rx';
 import { NewsService } from './../news/news.service';
-import { Subscription as AppSubscription } from '../news/subscription.model';
+import { ISubscription, Subscription as AppSubscription } from '../news/subscription.model';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
@@ -18,15 +19,13 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 export class HomeComponent implements OnInit, OnDestroy {
   private articlesSubscription: Subscription;
   public articles: Article[] = [];
-
-  private sidebarSubscription: Subscription;
-  
-  private id: any;
-  
+  public subscriptions: ISubscription[] = [];
+  private userSubscription: Subscription;
   public title = '';
 
   constructor(
     private newsService: NewsService, 
+    private authService: AuthService,
     public media: ObservableMedia, 
     private route: ActivatedRoute, 
     private router: Router, 
@@ -51,13 +50,20 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.userSubscription = this.authService.userSubscription.subscribe(user => {
+      this.subscriptions = user.subscriptions;
+    })
+
     this.articlesSubscription = this.newsService.articlesChanged.subscribe(articles => {
       this.articles = articles;
     });
+
+    
   } 
 
   ngOnDestroy() {
     this.articlesSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
   onSearch(searchString: string) {
