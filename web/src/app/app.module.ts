@@ -1,3 +1,9 @@
+import { ArticlesEffects } from './news/store/articles.effects';
+import { articlesReducer } from './news/store/articles.reducer';
+import { SourcesEffects } from './news/store/sources.effects';
+import { sourcesReducer } from './news/store/sources.reducer';
+
+import { AuthModule } from './auth/auth.module';
 
 import { UIService } from './shared/ui.service';
 import { ObjectKeysPipe } from './news/source-list/object-keys.pipe';
@@ -20,20 +26,23 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ClarityModule } from 'clarity-angular';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
+import { HomeComponent } from './views/home/home.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
+import { FooterComponent } from './shared/footer.component';
 
 import { environment } from '@env/environment';
 import { SourceListComponent } from './news/source-list/source-list.component';
 import { ArticleListComponent } from './news/article-list/article-list.component';
+
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 // const firebaseConfig = ;
@@ -42,14 +51,12 @@ import { ArticleListComponent } from './news/article-list/article-list.component
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent,
-    SignupComponent,
-    SidebarComponent,
-    HeaderComponent,
-    FooterComponent,
     SourceListComponent,
     ArticleListComponent,
     ArticleListItemComponent,
+    SidebarComponent,
+    FooterComponent,
+    HeaderComponent,
     SourceFilterPipe,
     ObjectKeysPipe
   ],
@@ -59,13 +66,17 @@ import { ArticleListComponent } from './news/article-list/article-list.component
     FormsModule,
     AngularFireModule.initializeApp(environment.secret.fireBaseInfo),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
     ClarityModule.forRoot(),
+    AuthModule,
     HttpModule,
     HttpClientModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot( { sources: sourcesReducer, articles: articlesReducer }),
+    EffectsModule.forRoot([SourcesEffects, ArticlesEffects]),
+    StoreRouterConnectingModule,
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
     AuthService,

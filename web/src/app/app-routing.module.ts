@@ -5,7 +5,7 @@ import { AuthGuard } from './auth/auth-guard.service';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './views/home/home.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,8 +15,6 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/news', pathMatch: 'full' },
   { path: 'news', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'news/:id', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'signup', component: SignupComponent, canActivate: [UnauthGuard] },
-  { path: 'login', component: LoginComponent, canActivate: [UnauthGuard] },
   { path: 'sources', component: SourceListComponent, canActivate: [AuthGuard] }
 
   // { path: '**', redirectTo: '' }

@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  angular:
+    build: web
+    ports:
+      - "4200:4200"
+  express:
+    build: api
+    ports:
+      - "8080:8080"
+    links:
+      - database
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"

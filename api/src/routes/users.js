@@ -1,7 +1,7 @@
 import {
   Router
 } from "express";
-import * as FirebaseAdmin from "firebase-admin";
+
 
 import {
   sendError,
@@ -14,16 +14,11 @@ export default () => {
   let api = Router();
 
   // get info
-  api.get('/current', firebaseAuthTokenMiddleware, (req, res) => {
+  api.post('/current', firebaseAuthTokenMiddleware, (req, res) => {
 
-    let authId = res.locals.token.uid;
+    const userData = req.body;
 
-    if (!authId) {
-      return sendError(res, 'authId required');
-    }
-
-    User.findOne({ authId })
-      .populate('subscriptions')
+    User.findOne({ email: userData.email })
       .exec((err, user) => {
         
         if (err) {
@@ -31,49 +26,22 @@ export default () => {
         }
 
         if (!user) {
-          return sendError(res, 'Did not get a response');
+          return sendError(res, 'Could not find user');
         }
 
-        res.status(200).json(user.toObject());
+        User.findOneAndUpdate(
+          { email: userData.email },
+          { authId: userData.authId })
+          .populate('subscriptions')
+          .exec((err, newUser) => {
+            if (err) {
+              return sendError(err);
+            }
+            res.status(200).json(newUser.toObject());
+          });
+
       })
-  } );
-  
-
-  // Log in
-  api.post('/login', (req, res) => {
-    const email = req.body.email;
-    const firebaseToken = req.body.token || '';
-
-    console.info('token' + firebaseToken);
-
-    debugger;
-    if (!email) {
-      return sendError(res, 'Email required');
-    }
-
-    FirebaseAdmin.auth().verifyIdToken(firebaseToken)
-      .then(decodedToken => {
-        console.log('decoded', decodedToken);
-      }).catch(err => {
-        console.log('error: ', err) 
-      })
-
-    User.findOneAndUpdate(
-      { email }, 
-      { firebaseToken },
-      { new: true },
-      (err, user) => {
-        if (err) {
-          return sendError(res, err);
-        }
-
-        if (!user) {
-          return sendError(res, 'Did not get a response');
-        }
-
-        res.status(200).json(user.toObject());
-      })
-  })
+  });
 
 
   // Sign up

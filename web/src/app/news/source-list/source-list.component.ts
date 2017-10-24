@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { UIService } from '../../shared/ui.service';
 import { AuthService } from './../../auth/auth.service';
 
@@ -9,6 +10,8 @@ import { Subscription as AppSubscription } from '../subscription.model';
 import { Subscription } from 'rxjs/Rx';
 import { ISubscription } from '../../news/subscription.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import * as fromSources from '../store/sources.reducer';
+import * as SourcesActions from '../store/sources.actions';
 
 @Component({
   selector: 'app-source-list',
@@ -37,15 +40,19 @@ export class SourceListComponent implements OnInit, OnDestroy {
     'science-and-nature': 'Science And Nature',
     gaming: 'Gaming'
   }
-  constructor(private newsService: NewsService, private authService: AuthService, private uiService: UIService) { }
+  constructor(private newsService: NewsService, 
+    private authService: AuthService, 
+    private uiService: UIService, 
+    private store: Store<fromSources.State>) { }
 
   ngOnInit() {
     this.uiService.setTitle('Sources');
+    
     this.sourcesSubscription = this.newsService.sourcesSubscription.subscribe(sources => {
+      
       this.sources = sources;
       this.updateSources(this.sources, this.subscriptions);
     });
-    this.newsService.getSources();
 
     this.authService.userSubscription.subscribe(user => {
       if (!user) {
@@ -54,7 +61,9 @@ export class SourceListComponent implements OnInit, OnDestroy {
       this.subscriptions = user.subscriptions;
       this.updateSources(this.sources, this.subscriptions);
     });
-
+    
+    this.newsService.getSources();
+    // this.store.dispatch(new SourcesActions.FetchSources());
   }
 
   ngOnDestroy() {
@@ -100,9 +109,6 @@ export class SourceListComponent implements OnInit, OnDestroy {
   }
 
   updateSources(sources, subscriptions) {
-    if (sources.length === 0 || subscriptions.length === 0) {
-      return sources;
-    }
 
     this.availableSubscriptions = sources.filter(source => {
       let subscribed = false;

@@ -39,40 +39,24 @@ export class AuthService {
         firebase.auth().currentUser.getIdToken()
           .then(apiToken => {
             this.token = apiToken;
-            this.user$ = this.http.get(`${environment.apiBaseUrl}/users/current`, {
+
+            const user = firebase.auth().currentUser;
+
+            const body = {
+              email: user.email,
+              authId: user.uid
+            }
+            this.user$ = this.http.post(`${environment.apiBaseUrl}/users/current`, body, {
               headers: new HttpHeaders().set('Authorization', `bearer ${apiToken}`)  
             }).share();
-            this.user$.subscribe(user => {
-              this.userSubscription.next(user);
+            this.user$.subscribe(userResults => {
+              this.userSubscription.next(userResults);
             });
           });
         
       }
     })
   }
-  
-  // currentUser() {
-  //   debugger;
-  //   if (this.user != null) {
-  //     return Observable.of(this.user);
-  //   }
-
-  //   this.afAuth.authState.subscribe( token => {
-  //     if (token) {
-        
-  //       firebase.auth().currentUser.getIdToken()
-  //         .then(apiToken => {
-  //           return this.http.get<IUser>(`${environment.apiBaseUrl}/users/current`, {
-  //             headers: new HttpHeaders().set('Authorization', `bearer ${apiToken}`)  
-  //           }).do(user => {
-  //             debugger;
-  //             this.user = user;
-  //           }).publishReplay(1)
-  //           .refCount();
-  //         })
-  //     }
-  //   })
-  // }
 
   logInEmail(email: string, password: string) {
     return firebase.auth().signInWithEmailAndPassword(email, password);

@@ -15,7 +15,7 @@ import configFile from '../config.json'
 let app = express();
 
 const env = process.env.NODE_ENV || 'development';
-
+console.log('Environment: ', env);
 const config = configFile[env];
 
 if (env !== 'test') {
@@ -25,14 +25,16 @@ if (env !== 'test') {
 app.use(cors());
 app.use(bodyParser.json());
 
-// app.use(bodyParser.json({
-//   limit: config.bodyLimit
-// }));
-
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(config.firebaseAdmin),
   databaseURL: config.firebaseDb
 });
+
+if (process.env.mongoConnection) {
+  config.mongoConnectionString = process.env.mongoConnection
+}
+
+console.log('connecting to mongo on: ', config.mongoConnectionString);
 
 mongoose.connect(config.mongoConnectionString, {
   useMongoClient: true

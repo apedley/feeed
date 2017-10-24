@@ -1,13 +1,17 @@
-import { AuthService } from '../auth/auth.service';
-import { UIService } from '../shared/ui.service';
+import { Store } from '@ngrx/store';
+import { AuthService } from '../../auth/auth.service';
+import { UIService } from '../../shared/ui.service';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 
-import { Article } from './../news/article.model';
+import { Article } from '../../news/article.model';
 import { Subscription } from 'rxjs/Rx';
-import { NewsService } from './../news/news.service';
-import { ISubscription, Subscription as AppSubscription } from '../news/subscription.model';
+import { NewsService } from '../../news/news.service';
+import { ISubscription, Subscription as AppSubscription } from '../../news/subscription.model';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import * as fromArticles from '../../news/store/articles.reducer';
+import * as ArticlesActions from '../../news/store/articles.actions';
+
 
 @Component({
   selector: 'app-home',
@@ -29,10 +33,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     public media: ObservableMedia, 
     private route: ActivatedRoute, 
     private router: Router, 
-    private uiService: UIService) { }
+    private uiService: UIService,
+    private store: Store<fromArticles.ArticlesState>) { }
 
   ngOnInit() {
 
+    this.store.dispatch(new ArticlesActions.FetchTopArticles());
+    
+    
     this.uiService.titleSubscription.subscribe(title => {
       this.title = title;
     })
@@ -51,6 +59,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.userSubscription = this.authService.userSubscription.subscribe(user => {
+      if (!user || !user.subscriptions) {
+        return this.subscriptions = [];
+      }
       this.subscriptions = user.subscriptions;
     })
 

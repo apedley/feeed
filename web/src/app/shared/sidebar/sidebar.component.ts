@@ -27,12 +27,6 @@ export class SidebarComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // this.authService.userSubscription.subscribe(user => {
-    //   if (!user) {
-    //     return this.subscriptions = []; 
-    //   }
-    //   this.subscriptions = user.subscriptions;
-    // });
   }
 
   searchArticles(value) {
