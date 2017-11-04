@@ -46,6 +46,8 @@ export class AuthService {
               email: user.email,
               authId: user.uid
             }
+            const urlll = `${environment.apiBaseUrl}/users/current`;
+            debugger;
             this.user$ = this.http.post(`${environment.apiBaseUrl}/users/current`, body, {
               headers: new HttpHeaders().set('Authorization', `bearer ${apiToken}`)  
             }).share();
