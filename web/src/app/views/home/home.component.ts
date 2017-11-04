@@ -79,6 +79,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onSearch(searchString: string) {
     this.newsService.searchArticles(searchString);
+    this.uiService.setTitle('Search: ' + searchString);
   }
 
 }
