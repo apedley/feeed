@@ -163,5 +163,11 @@ export default () => {
 
       });
   });
+
+  api.get('/test', (req, res) => {
+    res.status(200).json({
+      "test": "ok"
+    })
+  })
   return api;
 }
