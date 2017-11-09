@@ -47,15 +47,15 @@ export class AuthService {
               authId: user.uid
             }
             const urlll = `${environment.apiBaseUrl}/users/current`;
-            debugger;
+
             this.user$ = this.http.post(`${environment.apiBaseUrl}/users/current`, body, {
-              headers: new HttpHeaders().set('Authorization', `bearer ${apiToken}`)  
+              headers: new HttpHeaders().set('Authorization', `bearer ${apiToken}`)
             }).share();
             this.user$.subscribe(userResults => {
               this.userSubscription.next(userResults);
             });
           });
-        
+
       }
     })
   }
@@ -72,7 +72,7 @@ export class AuthService {
     firebase.auth().currentUser.getIdToken()
       .then(token => {
 
-        
+
         const userData = {
           email: authResults.email,
           authId: authResults.uid,
@@ -80,7 +80,7 @@ export class AuthService {
         }
 
         this.http.post(`${environment.apiBaseUrl}/users`, userData).subscribe(results => {
-          
+
           this.user = results['user'];
 
           this.router.navigate(['/']);
@@ -95,5 +95,5 @@ export class AuthService {
     this.userSubscription.next(null);
     this.router.navigate(['/login'])
   }
-  
+
 }
