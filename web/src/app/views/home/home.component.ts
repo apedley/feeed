@@ -28,19 +28,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   public title = '';
 
   constructor(
-    private newsService: NewsService, 
+    private newsService: NewsService,
     private authService: AuthService,
-    public media: ObservableMedia, 
-    private route: ActivatedRoute, 
-    private router: Router, 
+    public media: ObservableMedia,
+    private route: ActivatedRoute,
+    private router: Router,
     private uiService: UIService,
     private store: Store<fromArticles.ArticlesState>) { }
 
   ngOnInit() {
 
     this.store.dispatch(new ArticlesActions.FetchTopArticles());
-    
-    
+
+
     this.uiService.titleSubscription.subscribe(title => {
       this.title = title;
     })
@@ -69,8 +69,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.articles = articles;
     });
 
-    
-  } 
+
+  }
 
   ngOnDestroy() {
     this.articlesSubscription.unsubscribe();

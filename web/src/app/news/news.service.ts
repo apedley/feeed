@@ -1,12 +1,12 @@
-import { environment } from './../../environments/environment';
-import { Source, ISource, ISourcesResponse } from './source.model';
-
-import { IArticle, IArticleResponse } from './article.model';
-import { Observable, ReplaySubject, Subject } from 'rxjs/Rx';
-import { ISubscription, Subscription } from './subscription.model';
 import { AuthService } from './../auth/auth.service';
+import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IArticle, IArticleResponse } from './article.model';
 import { Injectable } from '@angular/core';
+import { ISource, ISourcesResponse, Source } from './source.model';
+import { ISubscription, Subscription } from './subscription.model';
+import { Observable, ReplaySubject, Subject } from 'rxjs/Rx';
+
 
 @Injectable()
 export class NewsService {
@@ -25,19 +25,21 @@ export class NewsService {
     private http: HttpClient
   ) { }
 
-  
+
   getArticles(sourceId?) {
+
     let url = 'http://beta.newsapi.org/v2/top-headlines?language=en&';
     if (sourceId) {
       url = `http://beta.newsapi.org/v2/top-headlines?sources=${sourceId}&`;
     }
-    const body = {   
+    const body = {
       url,
       limit: 25
     };
     const localUrl = `${environment.apiBaseUrl}/news/request`;
+
     return this.http.post<IArticleResponse>(localUrl, body, {
-      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
+      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)
     }).subscribe(response => {
       if (response.status !== 'ok' || !response.articles) {
         return console.dir(response);
@@ -71,9 +73,9 @@ export class NewsService {
       url: `http://beta.newsapi.org/v2/sources?language=en&`
     }
     const url = `${environment.apiBaseUrl}/news/request`;
-    
+
     return this.http.post<ISourcesResponse>(url, body, {
-      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
+      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)
     })
   }
 
@@ -82,7 +84,7 @@ export class NewsService {
       this.getSources();
       return []
     }
-    
+
     const sources = this.sources.filter(source => {
       if (source.name.toLowerCase().search(text) > -1 ) {
         return true;
@@ -99,7 +101,7 @@ export class NewsService {
 
     const url = `${environment.apiBaseUrl}/news/request`;
     this.http.post<IArticleResponse>(url, body, {
-      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
+      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)
     }).subscribe(articlesResponse => {
       this.articles = articlesResponse.articles;
       this.articlesChanged.next(this.articles);
@@ -116,7 +118,7 @@ export class NewsService {
 
     delete data.id;
     return this.http.post<ISubscription>(url, data, {
-      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)  
+      headers: new HttpHeaders().set('Authorization', `bearer ${this.authService.token}`)
     })
 
   }
