@@ -1,6 +1,6 @@
 # feeed
 
-![Screenshot](http://feeed.online/assets/ss.png)
+![Screenshot](https://i.imgur.com/5Js0IqT.jpg)
 
 News reader using the [News API](https://newsapi.org/). 
 
